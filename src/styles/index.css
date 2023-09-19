@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply font-sans text-[16px] min-w-[320px];
+  }
+
+  * {
+    @apply text-[1rem] break-words min-w-[0] focus-visible:outline-none focus:outline-none;
+  }
+}
+
+@layer utilities {
+  .content-positioner {
+    @apply px-[20px];
+  }
+
+  .transition-custom {
+    @apply transition-all duration-300;
+  }
+}
+
+@layer components {
+  .logo-text {
+    @apply text-[1.2rem] sm:text-[1.5rem] text-[#fff] uppercase;
+  }
+}
