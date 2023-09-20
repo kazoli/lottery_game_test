@@ -4,7 +4,7 @@
 
 @layer base {
   html {
-    @apply font-sans text-[16px] min-w-[320px];
+    @apply font-sans text-[16px] min-w-[320px] text-[#303030];
   }
 
   * {
@@ -20,10 +20,22 @@
   .transition-custom {
     @apply transition-all duration-300;
   }
+
+  .link {
+    @apply text-[#0000ff] cursor-pointer hover:underline;
+  }
 }
 
 @layer components {
   .logo-text {
     @apply text-[1.2rem] sm:text-[1.5rem] text-[#fff] uppercase;
+  }
+
+  .main-link {
+    @apply float-left clear-left text-[1.25rem];
+  }
+
+  .form-button {
+    @apply transition-custom cursor-pointer p-[5px_10px] bg-[#fff] shadow-[inset_0_0_5px_0_#6393c4,0_0_0_1px_#6393c4] hover:shadow-[inset_0_0_5px_0_#ebad00,0_0_0_1px_#ebad00] text-[#2a4c6f] hover:text-[#705300] rounded-[3px];
   }
 }

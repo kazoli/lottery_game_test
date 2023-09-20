@@ -35,7 +35,7 @@ function HeaderMenu(props: tProps) {
       classContainer="relative"
       classTrigger=""
       classList={`${props.hide ? '!hidden' : ''} right-0 w-[max-content] p-[1px]`}
-      classElement="transition-custom block cursor-pointer mt-[5px] p-[5px_10px] bg-[#fff] shadow-[inset_0_0_7px_0_#6393c4,0_0_0_1px_#6393c4] hover:shadow-[inset_0_0_7px_0_#ffbc00,0_0_0_1px_#ffbc00] text-[#2a4c6f] hover:text-[#705300] rounded-[5px]"
+      classElement="transition-custom block cursor-pointer mt-[5px] p-[5px_10px] bg-[#fff] shadow-[inset_0_0_7px_0_#6393c4,0_0_0_1px_#6393c4] hover:shadow-[inset_0_0_7px_0_#ebad00,0_0_0_1px_#ebad00] text-[#2a4c6f] hover:text-[#705300] rounded-[3px]"
       options={options}
       action={action}
     />

@@ -1,3 +1,8 @@
+// Types of currencies
+export enum currencies {
+  AKCSE = 'AKCSE',
+}
+
 // General type mapping of actions for any reducer
 export type tActionMap<T extends { [key: string]: any }> = {
   [Key in keyof T]: T[Key] extends undefined
