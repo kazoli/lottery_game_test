@@ -3,11 +3,12 @@ import { useAppContext } from '../core/Context';
 import DefaultLayout from '../layout/DefaultLayout';
 
 function Operator() {
+  const { lotteryState, lotteryDispatch } = useAppContext();
+
+  console.log(lotteryState);
   useEffect(() => {
     document.title = 'Lottery Game - Operator';
   }, []);
-
-  const { lotteryState } = useAppContext();
 
   return (
     <DefaultLayout loading={lotteryState.status === 'loading'}>

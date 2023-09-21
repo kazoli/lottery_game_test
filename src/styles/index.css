@@ -14,7 +14,7 @@
 
 @layer utilities {
   .content-positioner {
-    @apply px-[20px];
+    @apply px-[10px] sm:px-[20px];
   }
 
   .transition-custom {
@@ -37,5 +37,31 @@
 
   .form-button {
     @apply transition-custom cursor-pointer p-[5px_10px] bg-[#fff] shadow-[inset_0_0_5px_0_#6393c4,0_0_0_1px_#6393c4] hover:shadow-[inset_0_0_5px_0_#ebad00,0_0_0_1px_#ebad00] text-[#2a4c6f] hover:text-[#705300] rounded-[3px];
+  }
+
+  .list-control-element {
+    @apply transition-custom flex flex-wrap items-center p-[5px_10px] shadow-[inset_0_0_5px_0_#6393c4,0_0_0_1px_#6393c4] hover:shadow-[inset_0_0_5px_0_#ebad00,0_0_0_1px_#ebad00] text-[#2a4c6f] hover:text-[#705300] rounded-[3px];
+  }
+
+  .scroll-bar {
+    scrollbar-color: #b0b0b0 #00000000;
+    scrollbar-width: thin;
+  }
+
+  /* webkit start */
+  .scroll-bar::-webkit-scrollbar {
+    @apply sm:w-[5px] w-[3px];
+  }
+
+  .scroll-bar::-webkit-scrollbar-track {
+    @apply m-[1px];
+  }
+
+  .scroll-bar::-webkit-scrollbar-thumb {
+    @apply bg-[#d0d0d0] rounded-[10rem];
+  }
+
+  .scroll-bar::-webkit-scrollbar-thumb:hover {
+    @apply bg-[#a0a0a0];
   }
 }

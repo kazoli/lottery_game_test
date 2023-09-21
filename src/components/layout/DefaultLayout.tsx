@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { scrollToElement } from '../../logics/general/middlewares';
 import Loading from './general/Loading';
 import Header from './header/Header';
+import Footer from './footer/Footer';
 import JumpTop from './general/JumpTop';
 
 type tProps = {
@@ -19,9 +20,10 @@ function DefaultLayout(props: tProps) {
     <>
       {props.loading && <Loading />}
       <Header />
-      <main className="flex">
-        <div className="content-positioner flex-[10000_10000_auto]">{props.children}</div>
+      <main className="content-positioner min-h-[100vh] py-[20px] sm:py-[50px]">
+        {props.children}
       </main>
+      <Footer />
       <JumpTop />
     </>
   );
