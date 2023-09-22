@@ -25,7 +25,7 @@ function PlayerNamePopUp(props: tProps) {
     if (errors.name) {
       setFormErrors(errors);
     } else {
-      lotteryDispatch({ type: tLotteryActionTypes.lotterySetName, payload: formData.name });
+      lotteryDispatch({ type: tLotteryActionTypes.lotterySetPlayerName, payload: formData.name });
       props.setNamePopUp(false);
     }
   };

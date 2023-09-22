@@ -2,20 +2,26 @@ import { currencies, tActionMap } from '../general/types';
 
 // Type of lottery settings
 export type tLotterySettings = {
-  validation: { name: { minLength: number; maxLength: number } };
+  dateFormat: string;
   defaultCurrency: currencies.AKCSE;
   gamePrice: number;
+  ticketMaxSelectable: number;
+  ticketStart: number;
+  ticketEnd: number;
   playerBudget: number;
   operatorBudget: number;
+  validation: { name: { minLength: number; maxLength: number } };
 };
 
 // Type of lottery budget
 type tLotteryBudget = { [currencies.AKCSE]: number };
 
 // Type of lottery ticket
-type tLotteryTicket = {
+export type tLotteryTicket = {
   playerId: string;
-  numbers: { value: number; matched: boolean }[];
+  created: string;
+  numbers: { value: number; match: boolean }[];
+  matches: number;
   played: boolean;
 };
 
@@ -37,7 +43,8 @@ export enum tLotteryActionTypes {
   lotterySetStatus = 'lotterySetStatus',
   lotterySetPlayer = 'lotterySetPlayer',
   lotteryUnsetPlayer = 'lotteryUnsetPlayer',
-  lotterySetName = 'lotterySetName',
+  lotterySetPlayerName = 'lotterySetPlayerName',
+  lotterySetPlayerTicket = 'lotterySetPlayerTicket',
 }
 
 // Types of payloads of lottery actions
@@ -45,7 +52,8 @@ type tLotteryPayload = {
   [tLotteryActionTypes.lotterySetStatus]: tLotteryState['status'];
   [tLotteryActionTypes.lotterySetPlayer]: undefined;
   [tLotteryActionTypes.lotteryUnsetPlayer]: undefined;
-  [tLotteryActionTypes.lotterySetName]: tLotteryState['player']['name'];
+  [tLotteryActionTypes.lotterySetPlayerName]: tLotteryState['player']['name'];
+  [tLotteryActionTypes.lotterySetPlayerTicket]: number[];
 };
 
 // Types of lottery actions

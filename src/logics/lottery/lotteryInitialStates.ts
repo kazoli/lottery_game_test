@@ -3,11 +3,15 @@ import { tLotterySettings, tLotteryState } from './lotteryTypes';
 
 // Lottery settings
 export const lotterySettings: tLotterySettings = {
-  validation: { name: { minLength: 2, maxLength: 35 } },
+  dateFormat: 'DD-MM-YYYY hh:mm:ss',
   defaultCurrency: currencies.AKCSE,
   gamePrice: 500,
+  ticketMaxSelectable: 5,
+  ticketStart: 1,
+  ticketEnd: 39,
   playerBudget: 10000,
   operatorBudget: 0,
+  validation: { name: { minLength: 2, maxLength: 35 } },
 };
 
 // Initial state of lottery
