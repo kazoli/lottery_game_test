@@ -14,7 +14,7 @@
 
 @layer utilities {
   .content-positioner {
-    @apply px-[10px] sm:px-[20px];
+    @apply px-[10px] sm:px-[20px] max-w-[1400px] m-[0_auto];
   }
 
   .transition-custom {

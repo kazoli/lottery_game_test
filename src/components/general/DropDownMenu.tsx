@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { tDropDownOption } from '../../app/general/types';
+import { tDropDownOption } from '../../logics/general/types';
 
 type tProps = {
   classContainer: string;
@@ -18,10 +18,7 @@ function DropDownMenu(props: tProps) {
   useEffect(() => {
     // close dropdown when clicking anywhere outside trigger button
     const clickOutside = (event: MouseEvent) => {
-      if (
-        dropDownRef.current &&
-        !dropDownRef.current.contains(event.target as Node)
-      ) {
+      if (dropDownRef.current && !dropDownRef.current.contains(event.target as Node)) {
         setShowDropDown(false);
       }
     };
@@ -43,9 +40,7 @@ function DropDownMenu(props: tProps) {
       <ul
         className={`${
           showDropDown ? '' : 'hidden'
-        } absolute scroll-bar max-h-[50vh] overflow-y-auto z-[2] ${
-          props.classList
-        }`}
+        } absolute scroll-bar max-h-[50vh] overflow-y-auto z-[2] ${props.classList}`}
       >
         {props.options.map((element) => (
           <li

@@ -1,9 +1,8 @@
 import { currencies } from '../general/types';
-import { tLotterySettings, tLotteryState } from './lotteryTypes';
+import { tLotteryState } from './lotteryTypes';
 
 // Lottery settings
-export const lotterySettings: tLotterySettings = {
-  dateFormat: 'DD-MM-YYYY hh:mm:ss',
+export const lotterySettings = {
   defaultCurrency: currencies.AKCSE,
   gamePrice: 500,
   ticketMaxSelectable: 5,
@@ -21,8 +20,9 @@ export const lotteryInitialState: tLotteryState = {
     id: '',
     name: 'Player',
     budget: { [currencies.AKCSE]: lotterySettings.playerBudget },
+    addTicket: true,
     tickets: [],
   },
-  operator: { budget: { [currencies.AKCSE]: lotterySettings.operatorBudget } },
+  operator: { id: '', budget: { [currencies.AKCSE]: lotterySettings.operatorBudget } },
   tickets: [],
 };

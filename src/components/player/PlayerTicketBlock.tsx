@@ -1,18 +1,14 @@
 import { lotterySettings } from '../../logics/lottery/lotteryInitialStates';
 import { toast } from 'react-toastify';
+import TicketNumber from '../general/TicketNumber';
 
 type tProps = {
   numbers: number[];
   setNumbers: React.Dispatch<React.SetStateAction<number[]>>;
 };
 
-const colors = {
-  base: 'shadow-[inset_0_0_5px_0_#d0d0d0,0_0_0_1px_#d0d0d0]',
-  selected: 'text-[#705300] shadow-[inset_0_0_5px_0_#ebad00,0_0_0_1px_#ebad00]',
-};
-
 function PlayerTicketBlock(props: tProps) {
-  const elements = [];
+  const ticketNumbers = [];
   const selectAction = (selected: boolean, i: number) => {
     props.setNumbers((prevData) => {
       if (selected) {
@@ -31,22 +27,20 @@ function PlayerTicketBlock(props: tProps) {
   };
   for (let i = lotterySettings.ticketStart; i <= lotterySettings.ticketEnd; i++) {
     const selected = props.numbers.includes(i);
-    elements.push(
-      <span
+    ticketNumbers.push(
+      <TicketNumber
         key={i}
-        className={`relative flex items-center justify-center p-[10px] cursor-pointer rounded-[3px] ${
-          selected ? colors.selected : colors.base
-        }`}
-        onClick={() => selectAction(selected, i)}
-      >
-        {i}
-      </span>,
+        extraClass="cursor-pointer p-[10px]"
+        number={i}
+        selected={selected}
+        action={() => selectAction(selected, i)}
+      />,
     );
   }
 
   return (
     <div className="w-full grid grid-cols-[repeat(auto-fill,minmax(45px,1fr))] gap-[10px]">
-      {elements}
+      {ticketNumbers}
     </div>
   );
 }

@@ -1,11 +1,12 @@
 import { useState } from 'react';
+import { tLotteryActionTypes } from '../../logics/lottery/lotteryTypes';
 import { lotterySettings } from '../../logics/lottery/lotteryInitialStates';
+import { lotteryStorePlayerTicket } from '../../logics/lottery/lotteryMiddlewares';
 import { useAppContext } from '../core/Context';
 import PopUp from '../general/PopUp';
-import FormButtonBlock from '../form/FormButtonBlock';
 import FromCustomBlock from '../form/FromCustomBlock';
 import PlayerTicketBlock from './PlayerTicketBlock';
-import { tLotteryActionTypes } from '../../logics/lottery/lotteryTypes';
+import FormButtonBlock from '../form/FormButtonBlock';
 
 type tProps = {
   setTicketPopUp: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,7 +19,10 @@ function PlayerAddTicketPopUp(props: tProps) {
 
   const submit = () => {
     if (numbers.length === lotterySettings.ticketMaxSelectable) {
-      lotteryDispatch({ type: tLotteryActionTypes.lotterySetPlayerTicket, payload: numbers });
+      lotteryDispatch({
+        type: tLotteryActionTypes.lotterySetPlayerTicket,
+        payload: lotteryStorePlayerTicket(lotteryState.player.id, numbers),
+      });
       props.setTicketPopUp(false);
     } else {
       setError(`Please select ${lotterySettings.ticketMaxSelectable} numbers first`);

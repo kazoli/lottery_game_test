@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { tLotteryActionTypes } from '../../logics/lottery/lotteryTypes';
 import { useAppContext } from '../core/Context';
 import DefaultLayout from '../layout/DefaultLayout';
+import ContentLoading from '../general/ContentLoading';
 import PlayerListHeader from '../player/PlayerListHeader';
 import PlayerHeadLine from '../player/PlayerHeadLine';
 import ListBody from '../list/ListBody';
@@ -26,11 +27,19 @@ function Player() {
 
   return (
     <DefaultLayout loading={lotteryState.status === 'loading'}>
-      <>
-        <PlayerHeadLine />
-        <PlayerListHeader />
-        {lotteryState.player.tickets.length ? <ListBody /> : <ListBodyEmpty />}
-      </>
+      {lotteryState.player.id ? (
+        <>
+          <PlayerHeadLine />
+          <PlayerListHeader />
+          {lotteryState.player.tickets.length ? (
+            <ListBody tickets={lotteryState.player.tickets} />
+          ) : (
+            <ListBodyEmpty />
+          )}
+        </>
+      ) : (
+        <ContentLoading />
+      )}
     </DefaultLayout>
   );
 }

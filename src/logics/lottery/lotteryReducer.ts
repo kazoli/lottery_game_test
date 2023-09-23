@@ -1,9 +1,5 @@
 import { tLotteryActionTypes, tLotteryActions, tLotteryState } from './lotteryTypes';
-import {
-  lotteryInitializePlayer,
-  lotteryStorePlayer,
-  lotteryStorePlayerTicket,
-} from './lotteryMiddlewares';
+import { lotteryInitializePlayer, lotteryStorePlayer } from './lotteryMiddlewares';
 import { lotteryInitialState } from './lotteryInitialStates';
 
 // Lottery reducer
@@ -49,7 +45,10 @@ export const lotteryReducer = (state: tLotteryState, action: tLotteryActions) =>
     case tLotteryActionTypes.lotterySetPlayerTicket:
       state = {
         ...state,
-        tickets: [...state.tickets, lotteryStorePlayerTicket(state.player.id, action.payload)],
+        player: {
+          ...state.player,
+          tickets: [action.payload, ...state.player.tickets],
+        },
       };
       return state;
 
