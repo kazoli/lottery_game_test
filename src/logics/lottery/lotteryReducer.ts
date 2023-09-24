@@ -1,5 +1,10 @@
 import { tLotteryActionTypes, tLotteryActions, tLotteryState } from './lotteryTypes';
-import { lotteryInitializePlayer, lotteryStorePlayer } from './lotteryMiddlewares';
+import {
+  lotteryInitializeOperator,
+  lotteryInitializePlayer,
+  lotteryLoadTicketList,
+  lotteryStorePlayer,
+} from './lotteryMiddlewares';
 import { lotteryInitialState } from './lotteryInitialStates';
 
 // Lottery reducer
@@ -15,9 +20,11 @@ export const lotteryReducer = (state: tLotteryState, action: tLotteryActions) =>
 
     // set player data
     case tLotteryActionTypes.lotterySetPlayer:
+      const player = lotteryInitializePlayer();
       state = {
         ...state,
-        player: lotteryInitializePlayer(),
+        player: player,
+        ticketList: lotteryLoadTicketList(player.id, 'created-desc', '1'),
       };
       return state;
 
@@ -26,6 +33,26 @@ export const lotteryReducer = (state: tLotteryState, action: tLotteryActions) =>
       state = {
         ...state,
         player: lotteryInitialState.player,
+        ticketList: lotteryInitialState.ticketList,
+      };
+      return state;
+
+    // set operator data
+    case tLotteryActionTypes.lotterySetOperator:
+      const operator = lotteryInitializeOperator();
+      state = {
+        ...state,
+        operator: operator,
+        ticketList: lotteryLoadTicketList('', 'playerId-desc', '1'),
+      };
+      return state;
+
+    // unset operator data
+    case tLotteryActionTypes.lotteryUnsetOperator:
+      state = {
+        ...state,
+        operator: lotteryInitialState.operator,
+        ticketList: lotteryInitialState.ticketList,
       };
       return state;
 
@@ -45,9 +72,31 @@ export const lotteryReducer = (state: tLotteryState, action: tLotteryActions) =>
     case tLotteryActionTypes.lotterySetPlayerTicket:
       state = {
         ...state,
-        player: {
-          ...state.player,
-          tickets: [action.payload, ...state.player.tickets],
+        ticketList: {
+          ...state.ticketList,
+          tickets: [...action.payload, ...state.ticketList.tickets],
+        },
+      };
+      return state;
+
+    // set list order
+    case tLotteryActionTypes.lotterySetListOrder:
+      state = {
+        ...state,
+        ticketList: {
+          ...state.ticketList,
+          order: action.payload,
+        },
+      };
+      return state;
+
+    // set list page
+    case tLotteryActionTypes.lotterySetListPage:
+      state = {
+        ...state,
+        ticketList: {
+          ...state.ticketList,
+          page: action.payload,
         },
       };
       return state;

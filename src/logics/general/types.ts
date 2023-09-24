@@ -20,3 +20,14 @@ export type tDropDownOption = {
   key: string | number;
   value: string | JSX.Element;
 };
+
+// General type of drop-down menu
+export type tDropDown = { selected: tDropDownOption['value']; options: tDropDownOption[] };
+
+// General type to button block
+export type tButtonBlock = {
+  disabled?: boolean;
+  title?: string;
+  content: string | JSX.Element;
+  action: () => void;
+}[];

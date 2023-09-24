@@ -1,3 +1,4 @@
+import { tDropDown, tDropDownOption } from './types';
 import moment from 'moment';
 
 // ~ 5 mbytes is the maximum size of local storage values
@@ -43,11 +44,11 @@ export const formatDate = (dateStyle: string, date: string | Date) => {
   return dateFormatted;
 };
 
-// General reorder with alphabetic order
+// General alphabetic reorder
 export const arrayReorder = <T extends { [key: string | number]: any }>(
   array: T[],
   key: keyof T,
-  ascend: boolean = true,
+  order = 'asc',
 ) => {
   // simple alphabetic order
   const sortFunction = (a: T, b: T) =>
@@ -56,8 +57,30 @@ export const arrayReorder = <T extends { [key: string | number]: any }>(
     });
   // creating a clone of the array
   const clonedArray = [...array];
-  // return with sorted array
-  return ascend
-    ? clonedArray.sort((a, b) => sortFunction(a, b))
-    : clonedArray.sort((a, b) => sortFunction(b, a));
+  // return with sorted array (default is ascend)
+  return order === 'desc'
+    ? clonedArray.sort((a, b) => sortFunction(b, a))
+    : clonedArray.sort((a, b) => sortFunction(a, b));
+};
+
+// Drop down content calculator
+export const dropDownCalculator = (
+  selected: tDropDownOption['key'],
+  options: tDropDown['options'],
+) => {
+  const dropDown: tDropDown = { selected: '', options: [] };
+  options.forEach((option) => {
+    if (option.key === selected) {
+      dropDown.selected = option.value;
+    } else {
+      dropDown.options = [...dropDown.options, option];
+    }
+  });
+  if (!dropDown.selected) {
+    // select first option if empty or wrong default value
+    dropDown.selected = options[0].value;
+    // drop the first option from list
+    dropDown.options.shift();
+  }
+  return dropDown;
 };

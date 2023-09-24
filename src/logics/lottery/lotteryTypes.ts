@@ -1,6 +1,6 @@
 import { currencies, tActionMap } from '../general/types';
 
-// Type of lottery local storages
+// Types of lottery local storages
 export enum tLotteryLocalStorages {
   player = 'LotteryPlayer',
   operator = 'LotteryOperator',
@@ -27,14 +27,19 @@ export type tLotteryState = {
     id: string;
     name: string;
     budget: tLotteryBudget;
-    addTicket: boolean;
-    tickets: tLotteryTicket[];
   };
   operator: {
     id: string;
     budget: tLotteryBudget; // setting all currencies: { [C in currencies]: number })
   };
-  tickets: tLotteryTicket[];
+  ticketList: {
+    played: boolean;
+    order: string;
+    page: string;
+    isNextPage: boolean;
+    totalResults: number;
+    tickets: tLotteryTicket[];
+  };
 };
 
 // Types of actions for lottery reducer
@@ -42,8 +47,12 @@ export enum tLotteryActionTypes {
   lotterySetStatus = 'lotterySetStatus',
   lotterySetPlayer = 'lotterySetPlayer',
   lotteryUnsetPlayer = 'lotteryUnsetPlayer',
+  lotterySetOperator = 'lotterySetOperator',
+  lotteryUnsetOperator = 'lotteryUnsetOperator',
   lotterySetPlayerName = 'lotterySetPlayerName',
   lotterySetPlayerTicket = 'lotterySetPlayerTicket',
+  lotterySetListOrder = 'lotterySetListOrder',
+  lotterySetListPage = 'lotterySetListPage',
 }
 
 // Types of payloads of lottery actions
@@ -51,8 +60,12 @@ type tLotteryPayload = {
   [tLotteryActionTypes.lotterySetStatus]: tLotteryState['status'];
   [tLotteryActionTypes.lotterySetPlayer]: undefined;
   [tLotteryActionTypes.lotteryUnsetPlayer]: undefined;
+  [tLotteryActionTypes.lotterySetOperator]: undefined;
+  [tLotteryActionTypes.lotteryUnsetOperator]: undefined;
   [tLotteryActionTypes.lotterySetPlayerName]: tLotteryState['player']['name'];
-  [tLotteryActionTypes.lotterySetPlayerTicket]: tLotteryTicket;
+  [tLotteryActionTypes.lotterySetPlayerTicket]: tLotteryTicket[];
+  [tLotteryActionTypes.lotterySetListOrder]: tLotteryState['ticketList']['order'];
+  [tLotteryActionTypes.lotterySetListPage]: tLotteryState['ticketList']['page'];
 };
 
 // Types of lottery actions

@@ -5,16 +5,16 @@ import { lotteryValidatePlayer } from '../../logics/lottery/lotteryMiddlewares';
 import { useAppContext } from '../core/Context';
 import PopUp from '../general/PopUp';
 import FormInputBlock from '../form/FormInputBlock';
-import FormButtonBlock from '../form/FormButtonBlock';
+import ButtonBlock from '../general/ButtonBlock';
 
 type tProps = {
   setNamePopUp: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 function PlayerNamePopUp(props: tProps) {
-  const { lotteryDispatch } = useAppContext();
+  const { lotteryState, lotteryDispatch } = useAppContext();
   const [formData, setFormData] = useState({
-    name: '',
+    name: lotteryState.player.name,
   });
   const [formErrors, setFormErrors] = useState({
     name: '',
@@ -35,11 +35,11 @@ function PlayerNamePopUp(props: tProps) {
   };
   const buttons = [
     {
-      text: 'Change name',
+      content: 'Change name',
       action: submit,
     },
     {
-      text: 'Cancel',
+      content: 'Cancel',
       action: () => props.setNamePopUp(false),
     },
   ];
@@ -55,7 +55,7 @@ function PlayerNamePopUp(props: tProps) {
         action={(value) => setFormData((prevState) => ({ ...prevState, name: value }))}
         error={formErrors.name}
       />
-      <FormButtonBlock buttons={buttons} />
+      <ButtonBlock buttons={buttons} buttonStyle="form-button" blockStyle="mt-[15px]" />
     </PopUp>
   );
 }

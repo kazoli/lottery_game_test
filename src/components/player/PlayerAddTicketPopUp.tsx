@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { tLotteryActionTypes } from '../../logics/lottery/lotteryTypes';
 import { lotterySettings } from '../../logics/lottery/lotteryInitialStates';
-import { lotteryStorePlayerTicket } from '../../logics/lottery/lotteryMiddlewares';
+import { lotteryStoreTicket } from '../../logics/lottery/lotteryMiddlewares';
 import { useAppContext } from '../core/Context';
 import PopUp from '../general/PopUp';
 import FromCustomBlock from '../form/FromCustomBlock';
 import PlayerTicketBlock from './PlayerTicketBlock';
-import FormButtonBlock from '../form/FormButtonBlock';
+import ButtonBlock from '../general/ButtonBlock';
 
 type tProps = {
   setTicketPopUp: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,7 +21,7 @@ function PlayerAddTicketPopUp(props: tProps) {
     if (numbers.length === lotterySettings.ticketMaxSelectable) {
       lotteryDispatch({
         type: tLotteryActionTypes.lotterySetPlayerTicket,
-        payload: lotteryStorePlayerTicket(lotteryState.player.id, numbers),
+        payload: lotteryStoreTicket(lotteryState.player.id, [numbers]),
       });
       props.setTicketPopUp(false);
     } else {
@@ -31,11 +31,11 @@ function PlayerAddTicketPopUp(props: tProps) {
 
   const buttons = [
     {
-      text: 'Submit lottery ticket',
+      content: 'Submit lottery ticket',
       action: submit,
     },
     {
-      text: 'Cancel',
+      content: 'Cancel',
       action: () => props.setTicketPopUp(false),
     },
   ];
@@ -68,7 +68,7 @@ function PlayerAddTicketPopUp(props: tProps) {
         content={<PlayerTicketBlock numbers={numbers} setNumbers={setNumbers} />}
         error={error}
       />
-      <FormButtonBlock buttons={buttons} />
+      <ButtonBlock buttons={buttons} buttonStyle="form-button" blockStyle="mt-[20px]" />
     </PopUp>
   );
 }

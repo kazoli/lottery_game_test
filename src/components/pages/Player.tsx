@@ -6,7 +6,6 @@ import ContentLoading from '../general/ContentLoading';
 import PlayerListHeader from '../player/PlayerListHeader';
 import PlayerHeadLine from '../player/PlayerHeadLine';
 import ListBody from '../list/ListBody';
-import ListBodyEmpty from '../list/ListBodyEmpty';
 
 function Player() {
   const { lotteryState, lotteryDispatch } = useAppContext();
@@ -31,11 +30,7 @@ function Player() {
         <>
           <PlayerHeadLine />
           <PlayerListHeader />
-          {lotteryState.player.tickets.length ? (
-            <ListBody tickets={lotteryState.player.tickets} />
-          ) : (
-            <ListBodyEmpty />
-          )}
+          <ListBody />
         </>
       ) : (
         <ContentLoading />

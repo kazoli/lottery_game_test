@@ -1,4 +1,4 @@
-import { currencies } from '../general/types';
+import { currencies, tDropDownOption } from '../general/types';
 import { tLotteryState } from './lotteryTypes';
 
 // Lottery settings
@@ -20,9 +20,28 @@ export const lotteryInitialState: tLotteryState = {
     id: '',
     name: 'Player',
     budget: { [currencies.AKCSE]: lotterySettings.playerBudget },
-    addTicket: true,
-    tickets: [],
   },
   operator: { id: '', budget: { [currencies.AKCSE]: lotterySettings.operatorBudget } },
-  tickets: [],
+  ticketList: {
+    played: false,
+    order: 'created-desc',
+    page: '1',
+    isNextPage: false,
+    totalResults: 0,
+    tickets: [],
+  },
 };
+
+// Player list order
+export const lotteryPlayerListOrder: tDropDownOption[] = [
+  { key: 'created-asc', value: 'Created increasing' },
+  { key: 'created-desc', value: 'Created decreasing' },
+];
+
+// Operator list order
+export const lotteryOperatorListOrder: tDropDownOption[] = [
+  { key: 'playerId-asc', value: 'Auto first' },
+  { key: 'playerId-desc', value: 'Player first' },
+  { key: 'created-asc', value: 'Created increasing' },
+  { key: 'created-desc', value: 'Created decreasing' },
+];

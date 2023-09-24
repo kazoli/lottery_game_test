@@ -6,12 +6,18 @@ import TicketNumber from '../general/TicketNumber';
 
 type tProps = {
   ticket: tLotteryTicket;
+  showCreator: boolean;
 };
 
 function ListBodyElement(props: tProps) {
   return (
     <div className="p-[10px] shadow-[0_0_0_1px_#d0d0d0] rounded-[3px]">
-      <ListBodyElementBlock label="Player" children={props.ticket.playerId} />
+      {props.showCreator && (
+        <ListBodyElementBlock
+          label="Creator"
+          children={props.ticket.playerId ? 'Player' : 'Auto'}
+        />
+      )}
       <ListBodyElementBlock
         label="Created"
         children={formatDate(settings.userDateFormat, props.ticket.created)}

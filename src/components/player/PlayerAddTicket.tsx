@@ -2,10 +2,17 @@ import { useState } from 'react';
 import { lotterySettings } from '../../logics/lottery/lotteryInitialStates';
 import { useAppContext } from '../core/Context';
 import PlayerAddTicketPopUp from './PlayerAddTicketPopUp';
+import ButtonBlock from '../general/ButtonBlock';
 
 function PlayerAddTicket() {
   const { lotteryState } = useAppContext();
   const [ticketPopUp, setTicketPopUp] = useState(false);
+  const buttons = [
+    {
+      content: 'Add a new lottery ticket',
+      action: () => setTicketPopUp(true),
+    },
+  ];
 
   return (
     <div className="flex flex-wrap items-center gap-[10px]">
@@ -18,9 +25,7 @@ function PlayerAddTicket() {
       ) : (
         <>
           {ticketPopUp && <PlayerAddTicketPopUp setTicketPopUp={setTicketPopUp} />}
-          <button className="list-control-element" onClick={() => setTicketPopUp(true)}>
-            Add a new lottery ticket
-          </button>
+          <ButtonBlock buttons={buttons} buttonStyle="list-element-controller" />
         </>
       )}
     </div>

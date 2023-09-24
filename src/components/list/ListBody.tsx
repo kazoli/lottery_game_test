@@ -1,17 +1,18 @@
-import { tLotteryTicket } from '../../logics/lottery/lotteryTypes';
+import { useAppContext } from '../core/Context';
 import ListBodyElement from './ListBodyElement';
+import ListBodyEmpty from './ListBodyEmpty';
 
-type tProps = {
-  tickets: tLotteryTicket[];
-};
+function ListBody() {
+  const { lotteryState } = useAppContext();
 
-function ListBody(props: tProps) {
-  return (
+  return lotteryState.ticketList.tickets.length ? (
     <section className="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-[10px]">
-      {props.tickets.map((ticket) => (
-        <ListBodyElement key={ticket.id} ticket={ticket} />
+      {lotteryState.ticketList.tickets.map((ticket) => (
+        <ListBodyElement key={ticket.id} ticket={ticket} showCreator={!!lotteryState.operator.id} />
       ))}
     </section>
+  ) : (
+    <ListBodyEmpty />
   );
 }
 
