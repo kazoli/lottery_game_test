@@ -1,11 +1,26 @@
 import { tButtonBlock } from '../../logics/general/types';
-import { tLotteryActionTypes } from '../../logics/lottery/lotteryTypes';
+import { tLotteryActionTypes, tLotteryState } from '../../logics/lottery/lotteryTypes';
 import { useAppContext } from '../core/Context';
 import { LuChevronFirst, LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 import ButtonBlock from '../general/ButtonBlock';
 
 function ListPaginator() {
   const { lotteryState, lotteryDispatch } = useAppContext();
+
+  if (lotteryState.ticketList.page === '1' && !lotteryState.ticketList.isNextPage) {
+    return <span className="list-element-disabled px-[10px] uppercase">1 page</span>;
+  }
+
+  const changePage = (page: tLotteryState['ticketList']['page']) => {
+    lotteryDispatch({
+      type: tLotteryActionTypes.lotterySetList,
+      payload: {
+        playerId: lotteryState.player.id,
+        order: lotteryState.ticketList.order,
+        page: page,
+      },
+    });
+  };
 
   const page = lotteryState.ticketList.page === '1' ? 1 : parseInt(lotteryState.ticketList.page);
   const buttons: tButtonBlock = [
@@ -18,11 +33,7 @@ function ListPaginator() {
         </span>
       ),
       title: 'Previous page',
-      action: () =>
-        lotteryDispatch({
-          type: tLotteryActionTypes.lotterySetListPage,
-          payload: `${page === 2 ? '' : page - 1}`,
-        }),
+      action: () => changePage(`${page === 2 ? '1' : page - 1}`),
     },
     {
       disabled: true,
@@ -39,11 +50,7 @@ function ListPaginator() {
         </span>
       ),
       title: 'Next page',
-      action: () =>
-        lotteryDispatch({
-          type: tLotteryActionTypes.lotterySetListPage,
-          payload: `${page + 1}`,
-        }),
+      action: () => changePage(`${page + 1}`),
     },
   ];
 
@@ -56,7 +63,7 @@ function ListPaginator() {
         </span>
       ),
       title: 'First page',
-      action: () => lotteryDispatch({ type: tLotteryActionTypes.lotterySetListPage, payload: '1' }),
+      action: () => changePage('1'),
     });
   }
 

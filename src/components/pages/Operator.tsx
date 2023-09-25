@@ -6,6 +6,8 @@ import ContentLoading from '../general/ContentLoading';
 import ListBody from '../list/ListBody';
 import PageHeadLine from '../general/PageHeadLine';
 import OperatorListHeader from '../operator/OperatorListHeader';
+import ListFooter from '../list/ListFooter';
+import OperatorDashboard from '../operator/OperatorDashboard';
 
 function Operator() {
   const { lotteryState, lotteryDispatch } = useAppContext();
@@ -30,10 +32,12 @@ function Operator() {
         <>
           <PageHeadLine
             title="Operator"
-            subTitle="You can start drawing or add some auto tickets to the list"
+            subTitle="You can controll the lottery game by the dashboard"
           />
+          <OperatorDashboard />
           <OperatorListHeader />
           <ListBody />
+          <ListFooter />
         </>
       ) : (
         <ContentLoading />

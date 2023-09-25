@@ -48,6 +48,7 @@ function PlayerNamePopUp(props: tProps) {
     <PopUp>
       <FormInputBlock
         type="text"
+        labelStyle="mb-[2px]"
         label={labels.name}
         id="title"
         placeholder={`${lotterySettings.validation.name.minLength} - ${lotterySettings.validation.name.maxLength} characters length`}

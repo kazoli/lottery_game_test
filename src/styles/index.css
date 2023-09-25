@@ -39,8 +39,24 @@
     @apply transition-custom cursor-pointer p-[5px_10px] bg-[#fff] shadow-[inset_0_0_5px_0_#6393c4,0_0_0_1px_#6393c4] hover:shadow-[inset_0_0_5px_0_#ebad00,0_0_0_1px_#ebad00] text-[#2a4c6f] hover:text-[#705300] rounded-[3px];
   }
 
+  .operator-dashboard-block {
+    @apply p-[10px] flex-[1_1_250px] bg-[#fdfdfd] shadow-[0_0_2px_0_#d0d0d0,0_0_0_1px_#d0d0d0] rounded-[3px];
+  }
+
+  .list-control-bar {
+    @apply flex flex-wrap gap-[10px] justify-between;
+  }
+
+  .list-control-header {
+    @apply list-control-bar mb-[10px] pb-[10px] shadow-[0_2px_0_-1px_#d0d0d0];
+  }
+
+  .list-control-footer {
+    @apply list-control-bar mt-[10px] pt-[10px] shadow-[0_-2px_0_-1px_#d0d0d0];
+  }
+
   .list-element {
-    @apply transition-custom flex flex-wrap items-center p-[5px_10px] shadow-[inset_0_0_5px_0_#d0d0d0,0_0_0_1px_#d0d0d0] rounded-[3px];
+    @apply transition-custom flex flex-wrap items-center p-[5px_10px] shadow-[inset_0_0_5px_0_#fff,0_0_0_1px_#d0d0d0] rounded-[3px];
   }
 
   .list-element-controller {
@@ -48,7 +64,7 @@
   }
 
   .list-element-disabled {
-    @apply flex flex-wrap items-center p-[5px] bg-[#f7f7f7] shadow-[inset_0_0_5px_0_#d0d0d0,0_0_0_1px_#d0d0d0] rounded-[3px];
+    @apply flex flex-wrap items-center p-[5px] bg-[#f7f7f7] shadow-[0_0_0_1px_#d0d0d0] rounded-[3px];
   }
 
   .scroll-bar {

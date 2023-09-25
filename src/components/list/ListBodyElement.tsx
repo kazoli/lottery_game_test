@@ -11,7 +11,7 @@ type tProps = {
 
 function ListBodyElement(props: tProps) {
   return (
-    <div className="p-[10px] shadow-[0_0_0_1px_#d0d0d0] rounded-[3px]">
+    <div className="p-[10px] shadow-[0_0_0_1px_#d0d0d0] bg-gradient-to-b from-[#f7fbff] to-[#fff] rounded-[3px]">
       {props.showCreator && (
         <ListBodyElementBlock
           label="Creator"

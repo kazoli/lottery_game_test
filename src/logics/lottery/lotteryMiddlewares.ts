@@ -17,6 +17,13 @@ export const lotteryValidatePlayer = (formData: { name: string }, labels: { name
   return errors;
 };
 
+// Validating generatable tickets number
+export const lotteryValidateGeneratableTicketNumber = (ticketNumber: string, label: string) => {
+  const error = '';
+  // TODO finish
+  return error;
+};
+
 // Initializing player data
 export const lotteryInitializePlayer = () => {
   const storedPlayer = getLocalStorage(tLotteryLocalStorages.player) as
@@ -49,13 +56,18 @@ export const lotteryInitializeOperator = () => {
   if (storedOperator) {
     return storedOperator;
   } else {
-    const newOperator = { ...lotteryInitialState.player };
+    const newOperator = { ...lotteryInitialState.operator };
     // creating an id to new operator
     newOperator.id = uuidV4();
     // storing the new operator in the local storage
-    setLocalStorage(tLotteryLocalStorages.operator, newOperator);
+    lotteryStoreOperator(newOperator);
     return newOperator;
   }
+};
+
+// Storing new operator data into local storage
+export const lotteryStoreOperator = (operator: tLotteryState['operator']) => {
+  setLocalStorage(tLotteryLocalStorages.operator, operator);
 };
 
 // Initializing ticket list
@@ -90,24 +102,17 @@ export const lotteryLoadTicketList = (
       splittedOrder[0] as keyof tLotteryTicket,
       splittedOrder[1],
     );
+    // set order to return array
+    ticketList.page = page;
     // paginator values
     const paginator = {
       currentPage: parseInt(page),
-      itemsPerPage: 480,
+      itemsPerPage: 12, //TODO 480
       startIndex: 0,
       maxIndex: ticketList.totalResults - 1,
     };
     // get start index based on page number
     paginator.startIndex = (paginator.currentPage - 1) * paginator.itemsPerPage;
-    // handle fall back if page is over the max pages
-    if (paginator.startIndex > paginator.maxIndex) {
-      // falling back to first page
-      paginator.startIndex = 0;
-      // set back page to default 1st page
-      ticketList.page = '1';
-      // send a warning message about fall back
-      // TODO ticketList.message = 'Redirect to first page because requested page cannot be found';
-    }
     // check out next page exists
     ticketList.isNextPage = paginator.startIndex + paginator.itemsPerPage < ticketList.totalResults;
     // get the part of the array according to paginator values

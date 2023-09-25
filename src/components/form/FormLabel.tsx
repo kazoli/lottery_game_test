@@ -6,7 +6,7 @@ type tProps = {
 
 function FormLabel(props: tProps) {
   return (
-    <label className={`w-full font-[500] mb-[2px] ${props.labelStyle ?? ''}`} htmlFor={props.id}>
+    <label className={`w-full font-[500] ${props.labelStyle ?? ''}`} htmlFor={props.id}>
       {props.label}
     </label>
   );

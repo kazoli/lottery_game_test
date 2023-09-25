@@ -1,11 +1,12 @@
 import { tLotteryActionTypes, tLotteryActions, tLotteryState } from './lotteryTypes';
+import { lotteryInitialState, lotterySettings } from './lotteryInitialStates';
 import {
   lotteryInitializeOperator,
   lotteryInitializePlayer,
   lotteryLoadTicketList,
+  lotteryStoreOperator,
   lotteryStorePlayer,
 } from './lotteryMiddlewares';
-import { lotteryInitialState } from './lotteryInitialStates';
 
 // Lottery reducer
 export const lotteryReducer = (state: tLotteryState, action: tLotteryActions) => {
@@ -20,11 +21,13 @@ export const lotteryReducer = (state: tLotteryState, action: tLotteryActions) =>
 
     // set player data
     case tLotteryActionTypes.lotterySetPlayer:
-      const player = lotteryInitializePlayer();
+      // initalize operator too to budget changes
+      const users = { player: lotteryInitializePlayer(), operator: lotteryInitializeOperator() };
       state = {
         ...state,
-        player: player,
-        ticketList: lotteryLoadTicketList(player.id, 'created-desc', '1'),
+        player: users.player,
+        operator: users.operator,
+        ticketList: lotteryLoadTicketList(users.player.id, 'created-desc', '1'),
       };
       return state;
 
@@ -33,6 +36,7 @@ export const lotteryReducer = (state: tLotteryState, action: tLotteryActions) =>
       state = {
         ...state,
         player: lotteryInitialState.player,
+        operator: lotteryInitialState.operator,
         ticketList: lotteryInitialState.ticketList,
       };
       return state;
@@ -65,39 +69,60 @@ export const lotteryReducer = (state: tLotteryState, action: tLotteryActions) =>
           name: action.payload,
         },
       };
+      // storing player data with new name
       lotteryStorePlayer(state.player);
       return state;
 
-    // set player's new ticket
-    case tLotteryActionTypes.lotterySetPlayerTicket:
+    // set payment and reload ticket list
+    case tLotteryActionTypes.lotterySetPlayerTicketPayment:
       state = {
         ...state,
-        ticketList: {
-          ...state.ticketList,
-          tickets: [...action.payload, ...state.ticketList.tickets],
+        operator: {
+          ...state.operator,
+          budget: {
+            [lotterySettings.defaultCurrency]:
+              state.operator.budget[lotterySettings.defaultCurrency] + lotterySettings.gamePrice,
+          },
         },
+        ticketList: lotteryLoadTicketList(state.player.id, state.ticketList.order, '1'),
+      };
+      // storing operator data with new budget
+      lotteryStoreOperator(state.operator);
+      return state;
+
+    // set ticket list
+    case tLotteryActionTypes.lotterySetList:
+      state = {
+        ...state,
+        ticketList: lotteryLoadTicketList(
+          action.payload.playerId,
+          action.payload.order,
+          action.payload.page,
+        ),
       };
       return state;
 
-    // set list order
-    case tLotteryActionTypes.lotterySetListOrder:
+    // reset game
+    case tLotteryActionTypes.lotteryResetGame:
       state = {
         ...state,
-        ticketList: {
-          ...state.ticketList,
-          order: action.payload,
+        player: {
+          ...state.player,
+          budget: lotteryInitialState.player.budget,
         },
+        operator: {
+          ...state.operator,
+          budget: lotteryInitialState.operator.budget,
+        },
+        ticketList: lotteryInitialState.ticketList,
       };
       return state;
 
-    // set list page
-    case tLotteryActionTypes.lotterySetListPage:
+    // set new round in game
+    case tLotteryActionTypes.lotterySetNewRound:
       state = {
         ...state,
-        ticketList: {
-          ...state.ticketList,
-          page: action.payload,
-        },
+        ticketList: lotteryInitialState.ticketList,
       };
       return state;
 

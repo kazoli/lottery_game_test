@@ -31,6 +31,16 @@ export type tLotteryState = {
   operator: {
     id: string;
     budget: tLotteryBudget; // setting all currencies: { [C in currencies]: number })
+    statementData: {
+      match5: { players: number; playerPayment: number; totalPayment: number };
+      match4: { players: number; playerPayment: number; totalPayment: number };
+      match3: { players: number; playerPayment: number; totalPayment: number };
+      match2: { players: number; playerPayment: number; totalPayment: number };
+      loosers: number;
+      totalIncome: number;
+      totalPayment: number;
+      totalProfit: number;
+    };
   };
   ticketList: {
     played: boolean;
@@ -50,9 +60,10 @@ export enum tLotteryActionTypes {
   lotterySetOperator = 'lotterySetOperator',
   lotteryUnsetOperator = 'lotteryUnsetOperator',
   lotterySetPlayerName = 'lotterySetPlayerName',
-  lotterySetPlayerTicket = 'lotterySetPlayerTicket',
-  lotterySetListOrder = 'lotterySetListOrder',
-  lotterySetListPage = 'lotterySetListPage',
+  lotterySetPlayerTicketPayment = 'lotterySetPlayerTicketPayment',
+  lotterySetList = 'lotterySetList',
+  lotteryResetGame = 'lotteryResetGame',
+  lotterySetNewRound = 'lotterySetNewRound',
 }
 
 // Types of payloads of lottery actions
@@ -63,9 +74,14 @@ type tLotteryPayload = {
   [tLotteryActionTypes.lotterySetOperator]: undefined;
   [tLotteryActionTypes.lotteryUnsetOperator]: undefined;
   [tLotteryActionTypes.lotterySetPlayerName]: tLotteryState['player']['name'];
-  [tLotteryActionTypes.lotterySetPlayerTicket]: tLotteryTicket[];
-  [tLotteryActionTypes.lotterySetListOrder]: tLotteryState['ticketList']['order'];
-  [tLotteryActionTypes.lotterySetListPage]: tLotteryState['ticketList']['page'];
+  [tLotteryActionTypes.lotterySetPlayerTicketPayment]: undefined;
+  [tLotteryActionTypes.lotterySetList]: {
+    playerId: tLotteryState['player']['id'];
+    order: tLotteryState['ticketList']['order'];
+    page: tLotteryState['ticketList']['page'];
+  };
+  [tLotteryActionTypes.lotteryResetGame]: undefined;
+  [tLotteryActionTypes.lotterySetNewRound]: undefined;
 };
 
 // Types of lottery actions

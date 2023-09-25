@@ -10,7 +10,7 @@ export const lotterySettings = {
   ticketEnd: 39,
   playerBudget: 10000,
   operatorBudget: 0,
-  validation: { name: { minLength: 2, maxLength: 35 } },
+  validation: { name: { minLength: 2, maxLength: 35 }, maxTicketNumber: 100 },
 };
 
 // Initial state of lottery
@@ -19,9 +19,22 @@ export const lotteryInitialState: tLotteryState = {
   player: {
     id: '',
     name: 'Player',
-    budget: { [currencies.AKCSE]: lotterySettings.playerBudget },
+    budget: { [lotterySettings.defaultCurrency]: lotterySettings.playerBudget },
   },
-  operator: { id: '', budget: { [currencies.AKCSE]: lotterySettings.operatorBudget } },
+  operator: {
+    id: '',
+    budget: { [lotterySettings.defaultCurrency]: lotterySettings.operatorBudget },
+    statementData: {
+      match5: { players: 0, playerPayment: 0, totalPayment: 0 },
+      match4: { players: 0, playerPayment: 0, totalPayment: 0 },
+      match3: { players: 0, playerPayment: 0, totalPayment: 0 },
+      match2: { players: 0, playerPayment: 0, totalPayment: 0 },
+      loosers: 0,
+      totalIncome: 0,
+      totalPayment: 0,
+      totalProfit: 0,
+    },
+  },
   ticketList: {
     played: false,
     order: 'created-desc',
@@ -40,8 +53,10 @@ export const lotteryPlayerListOrder: tDropDownOption[] = [
 
 // Operator list order
 export const lotteryOperatorListOrder: tDropDownOption[] = [
-  { key: 'playerId-asc', value: 'Auto first' },
-  { key: 'playerId-desc', value: 'Player first' },
+  { key: 'playerId-asc', value: 'Auto tickets first' },
+  { key: 'playerId-desc', value: 'Player tickets first' },
   { key: 'created-asc', value: 'Created increasing' },
   { key: 'created-desc', value: 'Created decreasing' },
+  { key: 'matches-asc', value: 'Matches increasing' },
+  { key: 'matches-desc', value: 'Matches decreasing' },
 ];

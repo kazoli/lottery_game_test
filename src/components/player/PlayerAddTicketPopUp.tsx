@@ -19,10 +19,11 @@ function PlayerAddTicketPopUp(props: tProps) {
 
   const submit = () => {
     if (numbers.length === lotterySettings.ticketMaxSelectable) {
-      lotteryDispatch({
-        type: tLotteryActionTypes.lotterySetPlayerTicket,
-        payload: lotteryStoreTicket(lotteryState.player.id, [numbers]),
-      });
+      // creating and store new ticket
+      lotteryStoreTicket(lotteryState.player.id, [numbers]);
+      // set payment for ticket
+      lotteryDispatch({ type: tLotteryActionTypes.lotterySetPlayerTicketPayment });
+      // close popup
       props.setTicketPopUp(false);
     } else {
       setError(`Please select ${lotterySettings.ticketMaxSelectable} numbers first`);
@@ -64,6 +65,7 @@ function PlayerAddTicketPopUp(props: tProps) {
         }
       />
       <FromCustomBlock
+        labelStyle="mb-[2px]"
         label={`Select ${lotterySettings.ticketMaxSelectable} numbers`}
         content={<PlayerTicketBlock numbers={numbers} setNumbers={setNumbers} />}
         error={error}

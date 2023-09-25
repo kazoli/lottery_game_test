@@ -14,21 +14,20 @@ function PlayerAddTicket() {
     },
   ];
 
-  return (
-    <div className="flex flex-wrap items-center gap-[10px]">
-      {lotteryState.player.budget[lotterySettings.defaultCurrency] < lotterySettings.gamePrice ? (
-        `You do not have enough budget to play because you have ${
-          lotteryState.player.budget[lotterySettings.defaultCurrency]
-        } ${lotterySettings.defaultCurrency} and one game costs ${lotterySettings.gamePrice}  ${
-          lotterySettings.defaultCurrency
-        }.`
-      ) : (
-        <>
-          {ticketPopUp && <PlayerAddTicketPopUp setTicketPopUp={setTicketPopUp} />}
-          <ButtonBlock buttons={buttons} buttonStyle="list-element-controller" />
-        </>
-      )}
+  return lotteryState.player.budget[lotterySettings.defaultCurrency] < lotterySettings.gamePrice ? (
+    <div className="flex flex-wrap items-center">
+      {`You do not have enough budget to play because you have 
+        ${lotteryState.player.budget[lotterySettings.defaultCurrency]} 
+        ${lotterySettings.defaultCurrency} 
+        and one game costs 
+        ${lotterySettings.gamePrice} 
+        ${lotterySettings.defaultCurrency}.`}
     </div>
+  ) : (
+    <>
+      {ticketPopUp && <PlayerAddTicketPopUp setTicketPopUp={setTicketPopUp} />}
+      <ButtonBlock buttons={buttons} buttonStyle="list-element-controller" />
+    </>
   );
 }
 
