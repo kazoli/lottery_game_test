@@ -3,6 +3,7 @@ import { tLotteryActionTypes } from '../../logics/lottery/lotteryTypes';
 import { useAppContext } from '../core/Context';
 import OperatorDashboardTitle from './OperatorDashboardTitle';
 import OperatorTicketGeneratorPopUp from './OperatorTicketGeneratorPopUp';
+import { lotteryDrawNumbers } from '../../logics/lottery/lotteryMiddlewares';
 
 function OperatorDashboardControllBlock() {
   const { lotteryState, lotteryDispatch } = useAppContext();
@@ -13,26 +14,20 @@ function OperatorDashboardControllBlock() {
       text: 'Reset game',
       action: () => lotteryDispatch({ type: tLotteryActionTypes.lotteryResetGame }),
     },
-    {
-      text: 'Start a new round',
-      action: () => lotteryDispatch({ type: tLotteryActionTypes.lotterySetNewRound }),
-    },
   ];
 
-  if (!lotteryState.ticketList.played) {
+  if (lotteryState.ticketList.played) {
+    links.push({
+      text: 'Start a new round',
+      action: () => lotteryDispatch({ type: tLotteryActionTypes.lotterySetNewRound }),
+    });
+  } else {
     links.push(
       {
         text: 'Start number drawing',
         action: () => {
-          // TODO drawing action
-          lotteryDispatch({
-            type: tLotteryActionTypes.lotterySetList,
-            payload: {
-              playerId: '',
-              order: lotteryState.ticketList.order,
-              page: lotteryState.ticketList.page,
-            },
-          });
+          // drawing number
+          lotteryDrawNumbers(lotteryState.operator);
         },
       },
       {
@@ -43,7 +38,7 @@ function OperatorDashboardControllBlock() {
   }
 
   return (
-    <div className="operator-dashboard-block">
+    <div className="dashboard-block">
       {ticketGeneratorPopup && (
         <OperatorTicketGeneratorPopUp setTicketGeneratorPopUp={setTicketGeneratorPopUp} />
       )}

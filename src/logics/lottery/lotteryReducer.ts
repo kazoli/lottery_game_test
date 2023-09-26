@@ -6,6 +6,7 @@ import {
   lotteryLoadTicketList,
   lotteryStoreOperator,
   lotteryStorePlayer,
+  lotteryStoreTickets,
 } from './lotteryMiddlewares';
 
 // Lottery reducer
@@ -79,14 +80,17 @@ export const lotteryReducer = (state: tLotteryState, action: tLotteryActions) =>
         ...state,
         operator: {
           ...state.operator,
-          budget: {
-            [lotterySettings.defaultCurrency]:
-              state.operator.budget[lotterySettings.defaultCurrency] + lotterySettings.gamePrice,
+          budget: state.operator.budget + lotterySettings.gamePrice,
+          statementData: {
+            ...state.operator.statementData,
+            totalIncome: state.operator.statementData.totalIncome + lotterySettings.gamePrice,
+            totalProfit: state.operator.statementData.totalProfit + lotterySettings.gamePrice,
+            noPrizeTickets: state.operator.statementData.noPrizeTickets + 1,
           },
         },
         ticketList: lotteryLoadTicketList(state.player.id, state.ticketList.order, '1'),
       };
-      // storing operator data with new budget
+      // storing operator data with new data
       lotteryStoreOperator(state.operator);
       return state;
 
@@ -104,16 +108,17 @@ export const lotteryReducer = (state: tLotteryState, action: tLotteryActions) =>
 
     // reset game
     case tLotteryActionTypes.lotteryResetGame:
+      // storing operator initial data
+      lotteryStoreOperator(lotteryInitialState.operator);
+      // storing player initial data
+      lotteryStorePlayer(lotteryInitialState.player);
+      // storing initial data of tickets
+      lotteryStoreTickets(lotteryInitialState.ticketList.tickets);
+      // reset state too
       state = {
         ...state,
-        player: {
-          ...state.player,
-          budget: lotteryInitialState.player.budget,
-        },
-        operator: {
-          ...state.operator,
-          budget: lotteryInitialState.operator.budget,
-        },
+        player: lotteryInitialState.player,
+        operator: lotteryInitializeOperator(), // reintialize operator
         ticketList: lotteryInitialState.ticketList,
       };
       return state;
@@ -124,6 +129,33 @@ export const lotteryReducer = (state: tLotteryState, action: tLotteryActions) =>
         ...state,
         ticketList: lotteryInitialState.ticketList,
       };
+      return state;
+
+    // set lottery auto tickets
+    case tLotteryActionTypes.lotterySetAutoTickets:
+      const ticketNumber = parseInt(action.payload);
+      const totalGamePrice = lotterySettings.gamePrice * ticketNumber;
+      state = {
+        ...state,
+        status: lotteryInitialState.status,
+        operator: {
+          ...state.operator,
+          budget: state.operator.budget + totalGamePrice,
+          statementData: {
+            ...state.operator.statementData,
+            totalIncome: state.operator.statementData.totalIncome + totalGamePrice,
+            totalProfit: state.operator.statementData.totalProfit + totalGamePrice,
+            noPrizeTickets: state.operator.statementData.noPrizeTickets + ticketNumber,
+          },
+        },
+        ticketList: lotteryLoadTicketList(
+          state.player.id,
+          state.ticketList.order,
+          state.ticketList.page,
+        ),
+      };
+      // storing operator data with new data
+      lotteryStoreOperator(state.operator);
       return state;
 
     default:

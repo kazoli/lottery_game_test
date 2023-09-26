@@ -1,5 +1,6 @@
 import { tButtonBlock } from '../../logics/general/types';
 import { tLotteryActionTypes, tLotteryState } from '../../logics/lottery/lotteryTypes';
+import { scrollToElement } from '../../logics/general/middlewares';
 import { useAppContext } from '../core/Context';
 import { LuChevronFirst, LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 import ButtonBlock from '../general/ButtonBlock';
@@ -12,6 +13,7 @@ function ListPaginator() {
   }
 
   const changePage = (page: tLotteryState['ticketList']['page']) => {
+    // dispatch data
     lotteryDispatch({
       type: tLotteryActionTypes.lotterySetList,
       payload: {
@@ -20,6 +22,11 @@ function ListPaginator() {
         page: page,
       },
     });
+    // scroll up to the list top
+    setTimeout(
+      () => scrollToElement('smooth', document.querySelector('.list-control-header') ?? window),
+      100,
+    );
   };
 
   const page = lotteryState.ticketList.page === '1' ? 1 : parseInt(lotteryState.ticketList.page);

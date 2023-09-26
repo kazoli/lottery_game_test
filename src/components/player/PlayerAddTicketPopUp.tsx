@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { tLotteryActionTypes } from '../../logics/lottery/lotteryTypes';
 import { lotterySettings } from '../../logics/lottery/lotteryInitialStates';
-import { lotteryStoreTicket } from '../../logics/lottery/lotteryMiddlewares';
+import { lotteryProcessTickets } from '../../logics/lottery/lotteryMiddlewares';
 import { useAppContext } from '../core/Context';
 import PopUp from '../general/PopUp';
 import FromCustomBlock from '../form/FromCustomBlock';
@@ -18,15 +18,15 @@ function PlayerAddTicketPopUp(props: tProps) {
   const [error, setError] = useState('');
 
   const submit = () => {
-    if (numbers.length === lotterySettings.ticketMaxSelectable) {
+    if (numbers.length === lotterySettings.ticketMaxNumbers) {
       // creating and store new ticket
-      lotteryStoreTicket(lotteryState.player.id, [numbers]);
+      lotteryProcessTickets(lotteryState.player.id, [numbers]);
       // set payment for ticket
       lotteryDispatch({ type: tLotteryActionTypes.lotterySetPlayerTicketPayment });
       // close popup
       props.setTicketPopUp(false);
     } else {
-      setError(`Please select ${lotterySettings.ticketMaxSelectable} numbers first`);
+      setError(`Please select ${lotterySettings.ticketMaxNumbers} numbers first`);
     }
   };
 
@@ -45,11 +45,7 @@ function PlayerAddTicketPopUp(props: tProps) {
     <PopUp>
       <FromCustomBlock
         label="Your current budget"
-        content={
-          lotteryState.player.budget[lotterySettings.defaultCurrency] +
-          ' ' +
-          lotterySettings.defaultCurrency
-        }
+        content={lotteryState.player.budget + ' ' + lotterySettings.defaultCurrency}
       />
       <FromCustomBlock
         label="Price of a game"
@@ -58,7 +54,7 @@ function PlayerAddTicketPopUp(props: tProps) {
       <FromCustomBlock
         label="Your remaining budget"
         content={
-          lotteryState.player.budget[lotterySettings.defaultCurrency] -
+          lotteryState.player.budget -
           lotterySettings.gamePrice +
           ' ' +
           lotterySettings.defaultCurrency
@@ -66,7 +62,7 @@ function PlayerAddTicketPopUp(props: tProps) {
       />
       <FromCustomBlock
         labelStyle="mb-[2px]"
-        label={`Select ${lotterySettings.ticketMaxSelectable} numbers`}
+        label={`Select ${lotterySettings.ticketMaxNumbers} numbers`}
         content={<PlayerTicketBlock numbers={numbers} setNumbers={setNumbers} />}
         error={error}
       />

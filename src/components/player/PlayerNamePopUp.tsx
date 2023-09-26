@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { tLotteryActionTypes } from '../../logics/lottery/lotteryTypes';
 import { lotterySettings } from '../../logics/lottery/lotteryInitialStates';
-import { lotteryValidatePlayer } from '../../logics/lottery/lotteryMiddlewares';
+import { lotteryValidatePlayer } from '../../logics/lottery/lotteryValidation';
 import { useAppContext } from '../core/Context';
 import PopUp from '../general/PopUp';
 import FormInputBlock from '../form/FormInputBlock';

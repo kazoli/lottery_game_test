@@ -1,4 +1,4 @@
-import { currencies, tActionMap } from '../general/types';
+import { tActionMap } from '../general/types';
 
 // Types of lottery local storages
 export enum tLotteryLocalStorages {
@@ -6,9 +6,6 @@ export enum tLotteryLocalStorages {
   operator = 'LotteryOperator',
   tickets = 'LotteryTickets',
 }
-
-// Type of lottery budget
-type tLotteryBudget = { [currencies.AKCSE]: number };
 
 // Type of lottery ticket
 export type tLotteryTicket = {
@@ -26,17 +23,17 @@ export type tLotteryState = {
   player: {
     id: string;
     name: string;
-    budget: tLotteryBudget;
+    budget: number;
   };
   operator: {
     id: string;
-    budget: tLotteryBudget; // setting all currencies: { [C in currencies]: number })
+    budget: number;
     statementData: {
       match5: { players: number; playerPayment: number; totalPayment: number };
       match4: { players: number; playerPayment: number; totalPayment: number };
       match3: { players: number; playerPayment: number; totalPayment: number };
       match2: { players: number; playerPayment: number; totalPayment: number };
-      loosers: number;
+      noPrizeTickets: number;
       totalIncome: number;
       totalPayment: number;
       totalProfit: number;
@@ -64,6 +61,7 @@ export enum tLotteryActionTypes {
   lotterySetList = 'lotterySetList',
   lotteryResetGame = 'lotteryResetGame',
   lotterySetNewRound = 'lotterySetNewRound',
+  lotterySetAutoTickets = 'lotterySetAutoTickets',
 }
 
 // Types of payloads of lottery actions
@@ -82,6 +80,7 @@ type tLotteryPayload = {
   };
   [tLotteryActionTypes.lotteryResetGame]: undefined;
   [tLotteryActionTypes.lotterySetNewRound]: undefined;
+  [tLotteryActionTypes.lotterySetAutoTickets]: string;
 };
 
 // Types of lottery actions

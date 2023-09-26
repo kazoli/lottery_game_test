@@ -1,13 +1,15 @@
 import { useEffect } from 'react';
+import { tLotteryActionTypes } from '../../logics/lottery/lotteryTypes';
+import { lotteryOperatorListOrder } from '../../logics/lottery/lotteryInitialStates';
 import { useAppContext } from '../core/Context';
 import DefaultLayout from '../layout/DefaultLayout';
-import { tLotteryActionTypes } from '../../logics/lottery/lotteryTypes';
 import ContentLoading from '../general/ContentLoading';
-import ListBody from '../list/ListBody';
 import PageHeadLine from '../general/PageHeadLine';
-import OperatorListHeader from '../operator/OperatorListHeader';
-import ListFooter from '../list/ListFooter';
 import OperatorDashboard from '../operator/OperatorDashboard';
+import ListBody from '../list/ListBody';
+import ListHeader from '../list/ListHeader';
+import ListFooter from '../list/ListFooter';
+import ListBodyEmpty from '../list/ListBodyEmpty';
 
 function Operator() {
   const { lotteryState, lotteryDispatch } = useAppContext();
@@ -35,9 +37,15 @@ function Operator() {
             subTitle="You can controll the lottery game by the dashboard"
           />
           <OperatorDashboard />
-          <OperatorListHeader />
-          <ListBody />
-          <ListFooter />
+          {lotteryState.ticketList.tickets.length ? (
+            <>
+              <ListHeader order={lotteryOperatorListOrder} />
+              <ListBody />
+              <ListFooter />
+            </>
+          ) : (
+            <ListBodyEmpty />
+          )}
         </>
       ) : (
         <ContentLoading />

@@ -1,16 +1,16 @@
-import { currencies, tDropDownOption } from '../general/types';
+import { tDropDownOption } from '../general/types';
 import { tLotteryState } from './lotteryTypes';
 
 // Lottery settings
 export const lotterySettings = {
-  defaultCurrency: currencies.AKCSE,
+  defaultCurrency: 'AKCSE',
   gamePrice: 500,
-  ticketMaxSelectable: 5,
-  ticketStart: 1,
-  ticketEnd: 39,
   playerBudget: 10000,
   operatorBudget: 0,
-  validation: { name: { minLength: 2, maxLength: 35 }, maxTicketNumber: 100 },
+  ticketMaxNumbers: 5,
+  ticketStart: 1,
+  ticketEnd: 39,
+  validation: { name: { minLength: 2, maxLength: 35 }, maxTicketNumber: 1000 },
 };
 
 // Initial state of lottery
@@ -19,17 +19,17 @@ export const lotteryInitialState: tLotteryState = {
   player: {
     id: '',
     name: 'Player',
-    budget: { [lotterySettings.defaultCurrency]: lotterySettings.playerBudget },
+    budget: lotterySettings.playerBudget,
   },
   operator: {
     id: '',
-    budget: { [lotterySettings.defaultCurrency]: lotterySettings.operatorBudget },
+    budget: lotterySettings.operatorBudget,
     statementData: {
       match5: { players: 0, playerPayment: 0, totalPayment: 0 },
       match4: { players: 0, playerPayment: 0, totalPayment: 0 },
       match3: { players: 0, playerPayment: 0, totalPayment: 0 },
       match2: { players: 0, playerPayment: 0, totalPayment: 0 },
-      loosers: 0,
+      noPrizeTickets: 0,
       totalIncome: 0,
       totalPayment: 0,
       totalProfit: 0,
