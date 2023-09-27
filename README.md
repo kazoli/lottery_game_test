@@ -20,6 +20,7 @@ https://kazoli.github.io/lottery_game_test
 10. Operator has the information about the payments, incomes and other related game information in the top dashboard part.
 11. Total list results and a paginator are also available to the lists.
 12. Jump top on the bottom right side.
+13. Currency name is AKCSE.
 
 # BEFORE RUN ANY CODE
 
