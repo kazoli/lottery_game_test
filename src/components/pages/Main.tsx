@@ -18,12 +18,16 @@ function Main() {
           title="Welcome to the lottery game!"
           subTitle="Please select if you would like to be a player or an operator."
         />
-        <Link to="/player" className="link main-link mt-[20px]">
-          Player
-        </Link>
-        <Link to="/operator" className="link main-link mt-[10px]">
-          Operator
-        </Link>
+        <div>
+          <Link to="/player" className="link text-[1.25rem]">
+            Player
+          </Link>
+        </div>
+        <div className="mt-[10px]">
+          <Link to="/operator" className="link text-[1.25rem]">
+            Operator
+          </Link>
+        </div>
       </>
     </DefaultLayout>
   );

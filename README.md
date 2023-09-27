@@ -1,27 +1,38 @@
-# React + TypeScript + Vite
+# DESCRIPTION
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Lottery game test with a player and and an operator. React with typescript and global state management was created with useReducer and useContext hooks.
 
-Currently, two official plugins are available:
+# LIVE DEMO
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+https://kazoli.github.io/lotto_game_test
 
-## Expanding the ESLint configuration
+# FEATURES
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. From the home page you can go to the player or the operator page.
+2. You can also change among pages in top header menu.
+3. Player can change their name.
+4. Player can create lottery ticket up to the budget before a drawing round.
+5. Lists cannot be ordered before a lottery drawing but they can be after that.
+6. List and grid view are available to lists.
+7. Operator can reset the game to initial state any time.
+8. Operator can start a new round after drawing and in this case player and operator also keep their own budget.
+9. Operator can generate auto tickets which will be added to the list.
+10. Operator has the information about the payments, incomes and other related game information in the top dashboard part.
+11. Total list results and a paginator are also available to the lists.
+12. Jump top on the bottom right side.
 
-- Configure the top-level `parserOptions` property like this:
+# BEFORE RUN ANY CODE
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+1. Download or clone codes from GitHub.
+2. Use a command line, enter in the main folder and install packages: "npm i"
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+# RUN DEVELOPMENT
+
+1. Use a command line, enter in the main folder and run this command: "npm run dev"
+2. Open in browser: http://localhost:3000/
+
+# RUN PRODUCTION
+
+1. Use a command line, enter in the main folder and run this command: "npm run build"
+2. You may serve it with a static server by typing in command line and run: "serve -s build"
+3. App will start on that URL that static server will display in the command line

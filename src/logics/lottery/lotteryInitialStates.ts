@@ -7,10 +7,16 @@ export const lotterySettings = {
   gamePrice: 500,
   playerBudget: 10000,
   operatorBudget: 0,
+  prizes: {
+    match5: { incomePercent: 0.15 },
+    match4: { incomePercent: 0.15, playerMaxToMatch5: 0.2 },
+    match3: { incomePercent: 0.35, playerMaxToMatch5: 0.015 },
+    match2: { incomePercent: 0.3, playerMaxToMatch5: 0.001 },
+  },
   ticketMaxNumbers: 5,
   ticketStart: 1,
   ticketEnd: 39,
-  validation: { name: { minLength: 2, maxLength: 35 }, maxTicketNumber: 1000 },
+  validation: { name: { minLength: 2, maxLength: 35 }, maxTicketNumber: 5000 },
 };
 
 // Initial state of lottery
@@ -20,11 +26,13 @@ export const lotteryInitialState: tLotteryState = {
     id: '',
     name: 'Player',
     budget: lotterySettings.playerBudget,
+    totalPrize: 0,
   },
   operator: {
     id: '',
     budget: lotterySettings.operatorBudget,
     statementData: {
+      drawnNumbers: [],
       match5: { players: 0, playerPayment: 0, totalPayment: 0 },
       match4: { players: 0, playerPayment: 0, totalPayment: 0 },
       match3: { players: 0, playerPayment: 0, totalPayment: 0 },
@@ -37,6 +45,7 @@ export const lotteryInitialState: tLotteryState = {
   },
   ticketList: {
     played: false,
+    listView: 'grid',
     order: 'created-desc',
     page: '1',
     isNextPage: false,
@@ -59,4 +68,6 @@ export const lotteryOperatorListOrder: tDropDownOption[] = [
   { key: 'created-desc', value: 'Created decreasing' },
   { key: 'matches-asc', value: 'Matches increasing' },
   { key: 'matches-desc', value: 'Matches decreasing' },
+  { key: 'prize-asc', value: 'Prize increasing' },
+  { key: 'prize-desc', value: 'Prize decreasing' },
 ];

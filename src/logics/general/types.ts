@@ -10,6 +10,9 @@ export type tActionMap<T extends { [key: string]: any }> = {
       };
 };
 
+// General type of view modes
+export type tListView = 'grid' | 'list';
+
 // General type of drop-down option
 export type tDropDownOption = {
   key: string | number;

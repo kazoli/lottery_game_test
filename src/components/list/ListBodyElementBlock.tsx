@@ -5,7 +5,7 @@ type tProps = {
 
 function ListBodyElementBlock(props: tProps) {
   return (
-    <div className="first-of-type:mt-[0] mt-[10px]">
+    <div className="min-w-[160px]">
       <label className="block font-[500]">{props.label}</label>
       {props.children}
     </div>

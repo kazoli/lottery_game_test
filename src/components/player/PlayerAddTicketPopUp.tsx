@@ -20,9 +20,12 @@ function PlayerAddTicketPopUp(props: tProps) {
   const submit = () => {
     if (numbers.length === lotterySettings.ticketMaxNumbers) {
       // creating and store new ticket
-      lotteryProcessTickets(lotteryState.player.id, [numbers]);
-      // set payment for ticket
-      lotteryDispatch({ type: tLotteryActionTypes.lotterySetPlayerTicketPayment });
+      const result = lotteryProcessTickets(lotteryState.player.id, [numbers]);
+      // if ticket could be generated, it runs the payment
+      if (result) {
+        // set payment for ticket
+        lotteryDispatch({ type: tLotteryActionTypes.lotterySetPlayerTicketPayment });
+      }
       // close popup
       props.setTicketPopUp(false);
     } else {

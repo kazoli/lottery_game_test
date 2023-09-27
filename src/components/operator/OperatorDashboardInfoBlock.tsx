@@ -1,6 +1,6 @@
 import { lotterySettings } from '../../logics/lottery/lotteryInitialStates';
 import { useAppContext } from '../core/Context';
-import OperatorDashboardTitle from './OperatorDashboardTitle';
+import DashboardBlock from '../general/DashboardBlock';
 
 function OperatorDashboardInfoBlock() {
   const { lotteryState } = useAppContext();
@@ -79,12 +79,24 @@ function OperatorDashboardInfoBlock() {
       ),
     },
     {
-      title: 'Summary',
+      title: 'Operational information',
       content: (
         <>
-          <div>{`Round closed: ${lotteryState.ticketList.played ? 'Yes' : 'No'}`}</div>
+          <div>{`Drawn numbers: ${
+            lotteryState.operator.statementData.drawnNumbers.length
+              ? lotteryState.operator.statementData.drawnNumbers.toString()
+              : 'Not available yet'
+          }`}</div>
           <div>{`Number of tickets: ${lotteryState.ticketList.totalResults}`}</div>
-          <div>{`Number of tickets without prize: ${lotteryState.operator.statementData.noPrizeTickets}`}</div>
+          <div>{`Tickets without prize: ${lotteryState.operator.statementData.noPrizeTickets}`}</div>
+        </>
+      ),
+    },
+    {
+      title: 'Financial summary',
+      content: (
+        <>
+          <div>{`Total budget: ${lotteryState.operator.budget} ${lotterySettings.defaultCurrency}`}</div>
           <div>
             {`Total income in this round: 
               ${lotteryState.operator.statementData.totalIncome} 
@@ -106,14 +118,10 @@ function OperatorDashboardInfoBlock() {
   ];
 
   return (
-    <div className="dashboard-block grid grid-cols-[repeat(auto-fill,minmax(325px,1fr))] gap-[20px] flex-[10000_10000_300px]">
-      {dataBlocks.map((data, index) => (
-        <div key={index}>
-          <OperatorDashboardTitle title={data.title} />
-          {data.content}
-        </div>
-      ))}
-    </div>
+    <DashboardBlock
+      dataBlocks={dataBlocks}
+      blockStyle="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-[20px] flex-[10000_10000_300px]"
+    />
   );
 }
 

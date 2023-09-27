@@ -2,6 +2,7 @@ import { tDropDownOption } from '../../logics/general/types';
 import { useAppContext } from '../core/Context';
 import ListTotalResults from './ListTotalResults';
 import ListOrder from './ListOrder';
+import ListView from './ListView';
 
 type tProps = {
   order: tDropDownOption[];
@@ -13,7 +14,10 @@ function ListHeader(props: tProps) {
   return (
     <section className="list-control-header">
       <ListTotalResults />
-      {lotteryState.ticketList.played && <ListOrder orders={props.order} />}
+      <div className="list-control-bar">
+        {lotteryState.ticketList.played && <ListOrder orders={props.order} />}
+        <ListView />
+      </div>
     </section>
   );
 }

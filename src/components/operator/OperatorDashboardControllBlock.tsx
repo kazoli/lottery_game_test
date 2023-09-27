@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { tLotteryActionTypes } from '../../logics/lottery/lotteryTypes';
-import { useAppContext } from '../core/Context';
-import OperatorDashboardTitle from './OperatorDashboardTitle';
-import OperatorTicketGeneratorPopUp from './OperatorTicketGeneratorPopUp';
 import { lotteryDrawNumbers } from '../../logics/lottery/lotteryMiddlewares';
+import { useAppContext } from '../core/Context';
+import OperatorTicketGeneratorPopUp from './OperatorTicketGeneratorPopUp';
+import DashboardBlock from '../general/DashboardBlock';
 
 function OperatorDashboardControllBlock() {
   const { lotteryState, lotteryDispatch } = useAppContext();
@@ -15,7 +15,6 @@ function OperatorDashboardControllBlock() {
       action: () => lotteryDispatch({ type: tLotteryActionTypes.lotteryResetGame }),
     },
   ];
-
   if (lotteryState.ticketList.played) {
     links.push({
       text: 'Start a new round',
@@ -26,8 +25,15 @@ function OperatorDashboardControllBlock() {
       {
         text: 'Start number drawing',
         action: () => {
-          // drawing number
-          lotteryDrawNumbers(lotteryState.operator);
+          // drawing number and return operator's data
+          const operator = lotteryDrawNumbers();
+          // if there were tickets, it stores data to operator's global state
+          if (operator) {
+            lotteryDispatch({
+              type: tLotteryActionTypes.lotterySetOperator,
+              payload: operator,
+            });
+          }
         },
       },
       {
@@ -37,20 +43,30 @@ function OperatorDashboardControllBlock() {
     );
   }
 
+  const dataBlocks = [
+    {
+      title: 'Lottery game controll',
+      content: (
+        <>
+          {links.map((link, index) => (
+            <div key={index} className="py-[5px]">
+              <a className="link" onClick={link.action}>
+                {link.text}
+              </a>
+            </div>
+          ))}
+        </>
+      ),
+    },
+  ];
+
   return (
-    <div className="dashboard-block">
+    <>
       {ticketGeneratorPopup && (
         <OperatorTicketGeneratorPopUp setTicketGeneratorPopUp={setTicketGeneratorPopUp} />
       )}
-      <OperatorDashboardTitle title="Lottery game controll" />
-      {links.map((link, index) => (
-        <div key={index} className="py-[5px]">
-          <a className="link" onClick={link.action}>
-            {link.text}
-          </a>
-        </div>
-      ))}
-    </div>
+      <DashboardBlock dataBlocks={dataBlocks} />
+    </>
   );
 }
 

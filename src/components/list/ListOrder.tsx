@@ -13,14 +13,24 @@ function ListOrder(props: tProps) {
   const { lotteryState, lotteryDispatch } = useAppContext();
   const dropDown = dropDownCalculator(lotteryState.ticketList.order, props.orders);
   const selectAction = (value: tDropDownOption['key']) => {
+    // show loading text
     lotteryDispatch({
-      type: tLotteryActionTypes.lotterySetList,
-      payload: {
-        playerId: lotteryState.player.id,
-        order: value.toString(),
-        page: '1',
-      },
+      type: tLotteryActionTypes.lotterySetStatus,
+      payload: 'loading',
     });
+    // some delay to show loading text
+    setTimeout(
+      () =>
+        lotteryDispatch({
+          type: tLotteryActionTypes.lotterySetList,
+          payload: {
+            playerId: lotteryState.player.id,
+            order: value.toString(),
+            page: '1',
+          },
+        }),
+      1,
+    );
   };
 
   return (

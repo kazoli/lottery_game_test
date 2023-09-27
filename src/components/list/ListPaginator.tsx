@@ -13,15 +13,24 @@ function ListPaginator() {
   }
 
   const changePage = (page: tLotteryState['ticketList']['page']) => {
-    // dispatch data
+    // show loading text
     lotteryDispatch({
-      type: tLotteryActionTypes.lotterySetList,
-      payload: {
-        playerId: lotteryState.player.id,
-        order: lotteryState.ticketList.order,
-        page: page,
-      },
+      type: tLotteryActionTypes.lotterySetStatus,
+      payload: 'loading',
     });
+    // some delay to show loading text
+    setTimeout(
+      () =>
+        lotteryDispatch({
+          type: tLotteryActionTypes.lotterySetList,
+          payload: {
+            playerId: lotteryState.player.id,
+            order: lotteryState.ticketList.order,
+            page: page,
+          },
+        }),
+      1,
+    );
     // scroll up to the list top
     setTimeout(
       () => scrollToElement('smooth', document.querySelector('.list-control-header') ?? window),

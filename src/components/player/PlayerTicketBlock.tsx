@@ -16,7 +16,7 @@ function PlayerTicketBlock(props: tProps) {
       } else {
         if (prevData.length === lotterySettings.ticketMaxNumbers) {
           toast.warning(`Only ${lotterySettings.ticketMaxNumbers} number can be selected`, {
-            toastId: 'sameError',
+            toastId: 'maxSelectableNumber',
           });
           return prevData;
         } else {

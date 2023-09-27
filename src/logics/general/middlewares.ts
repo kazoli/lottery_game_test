@@ -59,15 +59,13 @@ export const objectArrayReorder = <T extends { [key: string | number]: any }>(
 ) => {
   // simple alphabetic order
   const sortFunction = (a: T, b: T) =>
-    a[key].toString().localeCompare(b[key].toString(), undefined, {
+    JSON.stringify(a[key]).localeCompare(JSON.stringify(b[key]), undefined, {
       sensitivity: 'accent',
     });
-  // creating a clone of the array
-  const clonedArray = [...array];
   // return with sorted array (default is ascend)
   return order === 'desc'
-    ? clonedArray.sort((a, b) => sortFunction(b, a))
-    : clonedArray.sort((a, b) => sortFunction(a, b));
+    ? array.sort((a, b) => sortFunction(b, a))
+    : array.sort((a, b) => sortFunction(a, b));
 };
 
 // General number array reorder

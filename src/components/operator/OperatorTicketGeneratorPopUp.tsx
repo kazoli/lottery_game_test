@@ -27,15 +27,27 @@ function OperatorTicketGeneratorPopUp(props: tProps) {
         type: tLotteryActionTypes.lotterySetStatus,
         payload: 'loading',
       });
-      // generating new tickets
-      lotteryGenerateAutoTickets(ticketNumber);
-      // send ticket numbers to calculations
-      lotteryDispatch({
-        type: tLotteryActionTypes.lotterySetAutoTickets,
-        payload: ticketNumber,
-      });
-      // close popup
-      props.setTicketGeneratorPopUp(false);
+      // waiting to show the loading first
+      setTimeout(() => {
+        // generating new tickets
+        const result = lotteryGenerateAutoTickets(ticketNumber);
+        // if tickets could be generated, it runs the payment
+        if (result) {
+          // send ticket numbers to calculations
+          lotteryDispatch({
+            type: tLotteryActionTypes.lotterySetAutoTickets,
+            payload: ticketNumber,
+          });
+        } else {
+          // hide loading text
+          lotteryDispatch({
+            type: tLotteryActionTypes.lotterySetStatus,
+            payload: 'idle',
+          });
+        }
+        // close popup
+        props.setTicketGeneratorPopUp(false);
+      }, 1);
     }
   };
 

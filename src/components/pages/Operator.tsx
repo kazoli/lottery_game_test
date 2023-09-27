@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { tLotteryActionTypes } from '../../logics/lottery/lotteryTypes';
 import { lotteryOperatorListOrder } from '../../logics/lottery/lotteryInitialStates';
+import { lotteryInitializeOperator } from '../../logics/lottery/lotteryMiddlewares';
 import { useAppContext } from '../core/Context';
 import DefaultLayout from '../layout/DefaultLayout';
 import ContentLoading from '../general/ContentLoading';
@@ -19,6 +20,7 @@ function Operator() {
     // initialize operator data
     lotteryDispatch({
       type: tLotteryActionTypes.lotterySetOperator,
+      payload: lotteryInitializeOperator(),
     });
     // clean up operator data
     return () => {
@@ -34,7 +36,7 @@ function Operator() {
         <>
           <PageHeadLine
             title="Operator"
-            subTitle="You can controll the lottery game by the dashboard"
+            subTitle="You can controll the lottery game through the dashboard"
           />
           <OperatorDashboard />
           {lotteryState.ticketList.tickets.length ? (

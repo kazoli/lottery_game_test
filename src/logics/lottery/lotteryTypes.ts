@@ -1,7 +1,8 @@
-import { tActionMap } from '../general/types';
+import { tActionMap, tListView } from '../general/types';
 
 // Types of lottery local storages
 export enum tLotteryLocalStorages {
+  listView = 'LotteryListViewr',
   player = 'LotteryPlayer',
   operator = 'LotteryOperator',
   tickets = 'LotteryTickets',
@@ -14,6 +15,7 @@ export type tLotteryTicket = {
   created: string;
   numbers: { value: number; match: boolean }[];
   matches: number;
+  prize: number;
   played: boolean;
 };
 
@@ -24,11 +26,13 @@ export type tLotteryState = {
     id: string;
     name: string;
     budget: number;
+    totalPrize: number;
   };
   operator: {
     id: string;
     budget: number;
     statementData: {
+      drawnNumbers: number[];
       match5: { players: number; playerPayment: number; totalPayment: number };
       match4: { players: number; playerPayment: number; totalPayment: number };
       match3: { players: number; playerPayment: number; totalPayment: number };
@@ -41,6 +45,7 @@ export type tLotteryState = {
   };
   ticketList: {
     played: boolean;
+    listView: tListView;
     order: string;
     page: string;
     isNextPage: boolean;
@@ -58,6 +63,7 @@ export enum tLotteryActionTypes {
   lotteryUnsetOperator = 'lotteryUnsetOperator',
   lotterySetPlayerName = 'lotterySetPlayerName',
   lotterySetPlayerTicketPayment = 'lotterySetPlayerTicketPayment',
+  lotterySetListView = 'lotterySetListView',
   lotterySetList = 'lotterySetList',
   lotteryResetGame = 'lotteryResetGame',
   lotterySetNewRound = 'lotterySetNewRound',
@@ -69,10 +75,11 @@ type tLotteryPayload = {
   [tLotteryActionTypes.lotterySetStatus]: tLotteryState['status'];
   [tLotteryActionTypes.lotterySetPlayer]: undefined;
   [tLotteryActionTypes.lotteryUnsetPlayer]: undefined;
-  [tLotteryActionTypes.lotterySetOperator]: undefined;
+  [tLotteryActionTypes.lotterySetOperator]: tLotteryState['operator'];
   [tLotteryActionTypes.lotteryUnsetOperator]: undefined;
   [tLotteryActionTypes.lotterySetPlayerName]: tLotteryState['player']['name'];
   [tLotteryActionTypes.lotterySetPlayerTicketPayment]: undefined;
+  [tLotteryActionTypes.lotterySetListView]: tLotteryState['ticketList']['listView'];
   [tLotteryActionTypes.lotterySetList]: {
     playerId: tLotteryState['player']['id'];
     order: tLotteryState['ticketList']['order'];
