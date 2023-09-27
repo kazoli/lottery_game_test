@@ -4,7 +4,7 @@ Lottery game test with a player and and an operator. React with typescript and g
 
 # LIVE DEMO
 
-https://kazoli.github.io/lotto_game_test
+https://kazoli.github.io/lottery_game_test
 
 # FEATURES
 
