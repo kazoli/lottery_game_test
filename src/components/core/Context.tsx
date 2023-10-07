@@ -15,7 +15,7 @@ type tProps = {
 };
 
 // Initial state of context
-const contextInitialState: tContext = {} as tContext;
+const contextInitialState = {} as tContext;
 
 // Create context
 const Context = createContext(contextInitialState);

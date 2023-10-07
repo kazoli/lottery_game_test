@@ -1,7 +1,7 @@
 import 'react-toastify/dist/ReactToastify.css';
 import '../../styles/index.css';
-import { ToastContainer } from 'react-toastify';
 import { ContextProvider } from './Context';
+import { ToastContainer } from 'react-toastify';
 import Router from './Router';
 
 function App() {

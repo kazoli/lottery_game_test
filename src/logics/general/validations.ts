@@ -1,4 +1,4 @@
-// Validate an input
+// Validate a text input
 export const validateText = (
   element: string,
   value: string,

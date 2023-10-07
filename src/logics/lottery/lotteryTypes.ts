@@ -2,7 +2,7 @@ import { tActionMap, tListView } from '../general/types';
 
 // Types of lottery local storages
 export enum tLotteryLocalStorages {
-  listView = 'LotteryListViewr',
+  listView = 'LotteryListView',
   player = 'LotteryPlayer',
   operator = 'LotteryOperator',
   tickets = 'LotteryTickets',

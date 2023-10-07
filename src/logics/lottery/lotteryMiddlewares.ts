@@ -5,7 +5,6 @@ import {
   formatDate,
   generateRandomDistinctNumbers,
   getLocalStorage,
-  numberArrayReorder,
   objectArrayReorder,
   setLocalStorage,
   storageMaxLengthExceeded,
@@ -77,7 +76,7 @@ export const lotteryLoadTicketList = (
   ticketList.totalResults = ticketList.tickets.length;
   // set base value of list view
   ticketList.listView = (getLocalStorage(tLotteryLocalStorages.listView) ??
-    'grid') as tLotteryState['ticketList']['listView'];
+    lotteryInitialState.ticketList.listView) as tLotteryState['ticketList']['listView'];
   // entering onyl if there is a ticket at least
   if (ticketList.totalResults) {
     // currently if 1 ticket is played in a drawn, then all tickets too
@@ -131,7 +130,7 @@ export const lotteryProcessTickets = (
     id: uuidV4(),
     playerId: playerId,
     created: formatDate(settings.systemDateFormat, new Date()),
-    numbers: numberArrayReorder(numbers).map((number) => ({ value: number, match: false })),
+    numbers: numbers.map((number) => ({ value: number, match: false })),
     matches: 0,
     prize: 0,
     played: false,
@@ -169,6 +168,7 @@ export const lotteryGenerateAutoTickets = (ticketNumber: string) => {
       lotterySettings.ticketEnd,
       lotterySettings.ticketMaxNumbers,
     );
+    // convert to string to check out the existence in this generation round
     const stringNumbers = numbers.toString();
     if (distinctionChecker[stringNumbers] === undefined) {
       distinctionChecker[stringNumbers] = null;
@@ -183,15 +183,15 @@ export const lotteryGenerateAutoTickets = (ticketNumber: string) => {
 export const lotteryDrawNumbers = () => {
   // get all tickets from local storage
   const tickets = lotteryGetAllTickets();
-  // enter only if there is ticket
+  // enter only if there is one ticket at least
   if (tickets.length) {
     // get player data
     const player = lotteryInitializePlayer();
     // get operator data
     const operator = lotteryInitializeOperator();
-    // reset unwinning ticket number because it was counted at adding of new ticket
+    // reset unwinning ticket number because it was counted at the adding of every new ticket
     operator.statementData.noPrizeTickets = 0;
-    // generate a drawn number array
+    // generate a drawn number array and store into operator statement data
     operator.statementData.drawnNumbers = generateRandomDistinctNumbers(
       lotterySettings.ticketStart,
       lotterySettings.ticketEnd,
@@ -205,13 +205,13 @@ export const lotteryDrawNumbers = () => {
       operator.statementData.drawnNumbers.forEach((drawnNumber) => {
         // loop through numbers of ticket
         ticket.numbers.every((ticketNumber, index2) => {
-          // if the ticket number matches the drawn number, then marks it as matched number
+          // if the ticket number matches the drawn number, then marks it as a matched number
           if (ticketNumber.value === drawnNumber) {
-            // number is marked as match
+            // number is marked as matched
             tickets[index1].numbers[index2].match = true;
             // count of matches
             tickets[index1].matches++;
-            // number mathed so loop can be stopped
+            // number matched so loop of ticket numbers is stopped
             return false;
           } else {
             // loop runs further
@@ -238,66 +238,38 @@ export const lotteryDrawNumbers = () => {
           break;
       }
     });
+    // match types
+    const matchTypes = Object.keys(
+      lotterySettings.prizes,
+    ) as (keyof typeof lotterySettings.prizes)[];
     // match 5 value if only 1 player won
     const prizeMatch5 = Math.floor(
       operator.statementData.totalIncome * lotterySettings.prizes.match5.incomePercent,
     );
-    // calculate prize values
-    const prizes = {
-      match5: {
-        basic: prizeMatch5,
-        perPlayer: Math.floor(
-          operator.statementData.totalIncome / operator.statementData.match5.players,
-        ),
-      },
-      match4: {
-        basic: Math.floor(prizeMatch5 * lotterySettings.prizes.match4.playerMaxToMatch5),
-        perPlayer: Math.floor(
-          (operator.statementData.totalIncome * lotterySettings.prizes.match4.incomePercent) /
-            operator.statementData.match4.players,
-        ),
-      },
-      match3: {
-        basic: Math.floor(prizeMatch5 * lotterySettings.prizes.match3.playerMaxToMatch5),
-        perPlayer: Math.floor(
-          (operator.statementData.totalIncome * lotterySettings.prizes.match3.incomePercent) /
-            operator.statementData.match3.players,
-        ),
-      },
-      match2: {
-        basic: Math.floor(prizeMatch5 * lotterySettings.prizes.match2.playerMaxToMatch5),
-        perPlayer: Math.floor(
-          (operator.statementData.totalIncome * lotterySettings.prizes.match2.incomePercent) /
-            operator.statementData.match2.players,
-        ),
-      },
-    };
-    // set 5 matches prizes to operator
-    operator.statementData.match5.playerPayment =
-      prizes.match5.perPlayer > prizes.match5.basic ? prizes.match5.basic : prizes.match5.perPlayer;
-    operator.statementData.match5.totalPayment =
-      operator.statementData.match5.playerPayment * operator.statementData.match5.players;
-    // set 4 matches prizes to operator
-    operator.statementData.match4.playerPayment =
-      prizes.match4.perPlayer > prizes.match4.basic ? prizes.match4.basic : prizes.match4.perPlayer;
-    operator.statementData.match4.totalPayment =
-      operator.statementData.match4.playerPayment * operator.statementData.match4.players;
-    // set 3 matches prizes to operator
-    operator.statementData.match3.playerPayment =
-      prizes.match3.perPlayer > prizes.match3.basic ? prizes.match3.basic : prizes.match3.perPlayer;
-    operator.statementData.match3.totalPayment =
-      operator.statementData.match3.playerPayment * operator.statementData.match3.players;
-    // set 2 matches prizes to operator
-    operator.statementData.match2.playerPayment =
-      prizes.match2.perPlayer > prizes.match2.basic ? prizes.match2.basic : prizes.match2.perPlayer;
-    operator.statementData.match2.totalPayment =
-      operator.statementData.match2.playerPayment * operator.statementData.match2.players;
-    // set total payment to operator
-    operator.statementData.totalPayment =
-      operator.statementData.match5.totalPayment +
-      operator.statementData.match4.totalPayment +
-      operator.statementData.match3.totalPayment +
-      operator.statementData.match2.totalPayment;
+    // calculate players' prize values and operator's incomes and payments
+    // basic is relative to 5-match prize
+    // perPlayer is max prize pool divided with players' number related to matches
+    matchTypes.forEach((matchType) => {
+      const prizes = { basic: 0, perPlayer: 0 };
+      if (matchType === 'match5') {
+        prizes.basic = prizeMatch5;
+        prizes.perPlayer = prizeMatch5 / operator.statementData.match5.players;
+      } else {
+        prizes.basic = prizeMatch5 * lotterySettings.prizes[matchType].playerMaxToMatch5;
+        prizes.perPlayer =
+          (operator.statementData.totalIncome * lotterySettings.prizes[matchType].incomePercent) /
+          operator.statementData[matchType].players;
+      }
+      // set player payment operator related to matches
+      operator.statementData[matchType].playerPayment = Math.floor(
+        prizes.perPlayer > prizes.basic ? prizes.basic : prizes.perPlayer,
+      );
+      // set total payment operator related to matches
+      operator.statementData[matchType].totalPayment =
+        operator.statementData[matchType].playerPayment * operator.statementData[matchType].players;
+      // adding together operator's total payment
+      operator.statementData.totalPayment += operator.statementData[matchType].totalPayment;
+    });
     // set profit to operator
     operator.statementData.totalProfit =
       operator.statementData.totalIncome - operator.statementData.totalPayment;
@@ -336,7 +308,7 @@ export const lotteryDrawNumbers = () => {
     // return operator data
     return operator;
   } else {
-    // no ticket therefore, shows an error message
+    // no ticket therefore, it shows a warning message
     toast.warning('There is no ticket to draw', {
       toastId: 'noTicketDraw',
     });

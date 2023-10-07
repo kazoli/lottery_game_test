@@ -13,7 +13,7 @@ export const lotteryValidatePlayer = (formData: { name: string }, labels: { name
   return errors;
 };
 
-// Validating generatable tickets number
+// Validating amount of ticket numbers
 export const lotteryValidateMaxTicketNumbers = (value: string, element: string) => {
   let error = validatePositiveInteger(element, value, false);
   if (!error) {

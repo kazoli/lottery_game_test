@@ -7,7 +7,7 @@ export default {
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
   ],
-  ignorePatterns: ['build', '.eslintrc.cjs'],
+  ignorePatterns: ['build', '.eslintrc.cts'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',

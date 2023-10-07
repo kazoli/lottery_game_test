@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { tLotteryActionTypes } from '../../logics/lottery/lotteryTypes';
 import { lotterySettings } from '../../logics/lottery/lotteryInitialStates';
+import { numberArrayReorder } from '../../logics/general/middlewares';
 import { lotteryProcessTickets } from '../../logics/lottery/lotteryMiddlewares';
 import { useAppContext } from '../core/Context';
 import PopUp from '../general/PopUp';
@@ -19,11 +20,10 @@ function PlayerAddTicketPopUp(props: tProps) {
 
   const submit = () => {
     if (numbers.length === lotterySettings.ticketMaxNumbers) {
-      // creating and store new ticket
-      const result = lotteryProcessTickets(lotteryState.player.id, [numbers]);
+      // ascend reordering and processing numbers into a ticket
+      const result = lotteryProcessTickets(lotteryState.player.id, [numberArrayReorder(numbers)]);
       // if ticket could be generated, it runs the payment
       if (result) {
-        // set payment for ticket
         lotteryDispatch({ type: tLotteryActionTypes.lotterySetPlayerTicketPayment });
       }
       // close popup
@@ -51,7 +51,7 @@ function PlayerAddTicketPopUp(props: tProps) {
         content={lotteryState.player.budget + ' ' + lotterySettings.defaultCurrency}
       />
       <FromCustomBlock
-        label="Price of a game"
+        label="Price of a lottey ticket"
         content={lotterySettings.gamePrice + ' ' + lotterySettings.defaultCurrency}
       />
       <FromCustomBlock

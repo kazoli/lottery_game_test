@@ -16,7 +16,7 @@ function Main() {
       <>
         <PageHeadLine
           title="Welcome to the lottery game!"
-          subTitle="Please select if you would like to be a player or an operator."
+          subTitle="You can go to the player or operator page of the game"
         />
         <div>
           <Link to="/player" className="link text-[1.25rem]">
