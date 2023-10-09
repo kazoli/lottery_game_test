@@ -255,27 +255,31 @@ export const lotteryDrawNumbers = () => {
         prizes.basic = prizeMatch5;
         prizes.perPlayer = prizeMatch5 / operator.statementData.match5.players;
       } else {
+        // if the total prize pool divided per players' number would result too high prize per player
         prizes.basic = prizeMatch5 * lotterySettings.prizes[matchType].playerMaxToMatch5;
+        // if the sum of basic prize per player would be over the prize pool because of too much winner player
         prizes.perPlayer =
           (operator.statementData.totalIncome * lotterySettings.prizes[matchType].incomePercent) /
           operator.statementData[matchType].players;
       }
-      // set player payment operator related to matches
+      // setting payment per player to matches
       operator.statementData[matchType].playerPayment = Math.floor(
         prizes.perPlayer > prizes.basic ? prizes.basic : prizes.perPlayer,
       );
-      // set total payment operator related to matches
+      // setting total payment to matches
       operator.statementData[matchType].totalPayment =
         operator.statementData[matchType].playerPayment * operator.statementData[matchType].players;
       // adding together operator's total payment
       operator.statementData.totalPayment += operator.statementData[matchType].totalPayment;
     });
-    // set profit to operator
+    // setting profit to operator
     operator.statementData.totalProfit =
       operator.statementData.totalIncome - operator.statementData.totalPayment;
-    // set prize on all tickets and player total price
+    // decreasing operator final budget with the total payment
+    operator.budget -= operator.statementData.totalPayment;
+    // setting prize on all tickets and player total price
     tickets.forEach((ticket, index) => {
-      // add prize to tickets
+      // adding prize to tickets
       switch (ticket.matches) {
         case 5:
           tickets[index].prize = operator.statementData.match5.playerPayment;
@@ -297,8 +301,6 @@ export const lotteryDrawNumbers = () => {
     });
     // adding player's total prize to budget
     player.budget += player.totalPrize;
-    // decreasing operator final budget with the total payment
-    operator.budget -= operator.statementData.totalPayment;
     // store player data into local storage
     lotteryStorePlayer(player);
     // store operator data into local storage

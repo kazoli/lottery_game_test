@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useAppContext } from '../core/Context';
 import ListBodyElement from './ListBodyElement';
 
@@ -9,13 +10,15 @@ function ListBody() {
       ? 'grid-cols-[repeat(auto-fill,minmax(200px,1fr))]'
       : '';
 
-  return (
-    <section className={`grid gap-[10px] ${viewStyle}`}>
-      {lotteryState.ticketList.tickets.map((ticket) => (
+  const listBody = useMemo(
+    () =>
+      lotteryState.ticketList.tickets.map((ticket) => (
         <ListBodyElement key={ticket.id} ticket={ticket} showCreator={!lotteryState.player.id} />
-      ))}
-    </section>
+      )),
+    [lotteryState.ticketList.tickets, lotteryState.player.id],
   );
+
+  return <section className={`grid gap-[10px] ${viewStyle}`}>{listBody}</section>;
 }
 
 export default ListBody;

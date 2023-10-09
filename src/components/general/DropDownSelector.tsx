@@ -8,7 +8,7 @@ function DropDownSelector(props: tProps) {
   return (
     <div className="flex gap-[5px] items-center">
       {props.selected}
-      <AiOutlineDown className="icon-button" />
+      <AiOutlineDown />
     </div>
   );
 }

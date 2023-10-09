@@ -8,10 +8,6 @@ type tProps = {
 };
 
 function ButtonBlock(props: tProps) {
-  const extraClass = (disabled: boolean | undefined) => {
-    return disabled && props.buttonStyleDisabled ? props.buttonStyleDisabled : props.buttonStyle;
-  };
-
   return (
     <div className={`flex flex-wrap gap-[10px] ${props.blockStyle ?? ''}`}>
       {props.buttons.map((button, index) => (
@@ -20,7 +16,11 @@ function ButtonBlock(props: tProps) {
           title={button.title}
           disabled={button.disabled}
           onClick={button.action}
-          className={extraClass(button.disabled)}
+          className={
+            button.disabled && props.buttonStyleDisabled
+              ? props.buttonStyleDisabled
+              : props.buttonStyle
+          }
         >
           {button.content}
         </button>

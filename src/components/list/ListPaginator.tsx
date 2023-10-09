@@ -33,7 +33,7 @@ function ListPaginator() {
     );
     // scroll up to the list top
     setTimeout(
-      () => scrollToElement('smooth', document.querySelector('.list-control-header') ?? window),
+      () => scrollToElement('smooth', document.querySelector('.list-control-header')!),
       100,
     );
   };
