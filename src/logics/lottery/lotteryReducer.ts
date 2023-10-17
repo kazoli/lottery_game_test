@@ -79,7 +79,7 @@ export const lotteryReducer = (state: tLotteryState, action: tLotteryActions) =>
       lotteryStorePlayer(state.player);
       return state;
 
-    // set payment and reload ticket list
+    // set player's payment and reload ticket list
     case tLotteryActionTypes.lotterySetPlayerTicketPayment:
       state = {
         ...state,

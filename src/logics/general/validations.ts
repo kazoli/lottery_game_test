@@ -1,4 +1,4 @@
-// Validate a text input
+// Validating a text input
 export const validateText = (
   element: string,
   value: string,
@@ -17,7 +17,7 @@ export const validateText = (
   return '';
 };
 
-// Validate positive integers that can or cannot be zero
+// Validating positive integers that can or cannot be zero
 export const validatePositiveInteger = (
   element: string,
   value: string,
@@ -35,7 +35,7 @@ export const validatePositiveInteger = (
   return '';
 };
 
-// Validate number range
+// Validating number range
 export const validateNumberRange = (
   element: string,
   value: number,

@@ -17,7 +17,7 @@ export const lotteryInitializePlayer = () => {
   const storedPlayer = getLocalStorage(tLotteryLocalStorages.player) as
     | null
     | tLotteryState['player'];
-  // check player existed before
+  // checking out that player existed before
   if (storedPlayer && storedPlayer.id) {
     return storedPlayer;
   } else {
@@ -40,7 +40,7 @@ export const lotteryInitializeOperator = () => {
   const storedOperator = getLocalStorage(tLotteryLocalStorages.operator) as
     | null
     | tLotteryState['operator'];
-  // check operator existed before
+  // checking out that operator existed before
   if (storedOperator && storedOperator.id) {
     return storedOperator;
   } else {
@@ -58,7 +58,7 @@ export const lotteryStoreOperator = (operator: tLotteryState['operator']) => {
   setLocalStorage(tLotteryLocalStorages.operator, operator);
 };
 
-// Get all lottery tickets from local storage
+// Getting all lottery tickets from the local storage
 const lotteryGetAllTickets = () => {
   return (getLocalStorage(tLotteryLocalStorages.tickets) ?? []) as tLotteryTicket[];
 };
@@ -72,9 +72,9 @@ export const lotteryLoadTicketList = (
   const ticketList: tLotteryState['ticketList'] = { ...lotteryInitialState.ticketList };
   // loading all tickets from the local storage (as like from a db)
   ticketList.tickets = lotteryGetAllTickets();
-  // set base value of total results
+  // setting base value of total results
   ticketList.totalResults = ticketList.tickets.length;
-  // set base value of list view
+  // setting base value of list view
   ticketList.listView = (getLocalStorage(tLotteryLocalStorages.listView) ??
     lotteryInitialState.ticketList.listView) as tLotteryState['ticketList']['listView'];
   // entering onyl if there is a ticket at least
@@ -85,12 +85,12 @@ export const lotteryLoadTicketList = (
     if (playerId) {
       // filtering player's tickets from all tickets
       ticketList.tickets = ticketList.tickets.filter((ticket) => ticket.playerId === playerId);
-      // recalculate total results with player ticket max number
+      // getting total results from number of player tickets
       ticketList.totalResults = ticketList.tickets.length;
     }
-    // set order to return array
+    // setting order to return array
     ticketList.order = order;
-    // split order to reordering
+    // splitting order to reordering
     const splittedOrder = order.split('-');
     // reordering according to the order
     objectArrayReorder(
@@ -98,24 +98,24 @@ export const lotteryLoadTicketList = (
       splittedOrder[0] as keyof tLotteryTicket,
       splittedOrder[1],
     );
-    // set order to return array
+    // adding current page to return array
     ticketList.page = page;
     // paginator values
     const paginator = {
       currentPage: parseInt(page),
       itemsPerPage: 60,
       startIndex: 0,
+      endIndex: 0,
       maxIndex: ticketList.totalResults - 1,
     };
-    // get start index based on page number
+    // getting start index based on page number
     paginator.startIndex = (paginator.currentPage - 1) * paginator.itemsPerPage;
-    // check out next page exists
-    ticketList.isNextPage = paginator.startIndex + paginator.itemsPerPage < ticketList.totalResults;
-    // get the part of the array according to paginator values
-    ticketList.tickets = ticketList.tickets.slice(
-      paginator.startIndex,
-      paginator.startIndex + paginator.itemsPerPage,
-    );
+    // calculating last index of current item range
+    paginator.endIndex = paginator.startIndex + paginator.itemsPerPage;
+    // checking out next page exists
+    ticketList.isNextPage = paginator.endIndex < ticketList.totalResults;
+    // getting the part of the array according to paginator values
+    ticketList.tickets = ticketList.tickets.slice(paginator.startIndex, paginator.endIndex);
   }
   return ticketList;
 };
@@ -137,15 +137,15 @@ export const lotteryProcessTickets = (
   }));
   // getting previous tickets from local storage
   const storedTickets = (getLocalStorage(tLotteryLocalStorages.tickets) ?? []) as tLotteryTicket[];
-  // check out storage max length
+  // checking out storage max length
   if (storageMaxLengthExceeded([...storedTickets, ...tickets])) {
-    // show an error message
+    // showing an error message
     toast.warning(
       'The number of lottery tickets in local storage exceeded the maximum allowed value so they could not be created',
     );
     return false;
   } else {
-    // merge new tickets to local storage too
+    // merging new tickets to local storage too
     lotteryStoreTickets([...storedTickets, ...tickets]);
     return true;
   }
@@ -162,54 +162,54 @@ export const lotteryGenerateAutoTickets = (ticketNumber: string) => {
   const distinctionChecker: { [key: string]: null } = {};
   const numberBlocks: number[][] = [];
   do {
-    // generate a number array
+    // generating a number array
     const numbers = generateRandomDistinctNumbers(
       lotterySettings.ticketStart,
       lotterySettings.ticketEnd,
       lotterySettings.ticketMaxNumbers,
     );
-    // convert to string to check out the existence in this generation round
+    // converting to string to check out the existence in this generation round
     const stringNumbers = numbers.toString();
     if (distinctionChecker[stringNumbers] === undefined) {
       distinctionChecker[stringNumbers] = null;
       numberBlocks.push(numbers);
     }
   } while (numberBlocks.length < ticketNumberInt);
-  // store newly generated lottery tickets into local storage
+  // storing newly generated lottery tickets into local storage
   return lotteryProcessTickets('', numberBlocks);
 };
 
 // Drawing lottery numbers
 export const lotteryDrawNumbers = () => {
-  // get all tickets from local storage
+  // getting all tickets from local storage
   const tickets = lotteryGetAllTickets();
-  // enter only if there is one ticket at least
+  // entering only if there is one ticket at least
   if (tickets.length) {
-    // get player data
+    // getting player data
     const player = lotteryInitializePlayer();
-    // get operator data
+    // getting operator data
     const operator = lotteryInitializeOperator();
-    // reset unwinning ticket number because it was counted at the adding of every new ticket
+    // resetting unwinning ticket number because it was counted at the adding of every new ticket
     operator.statementData.noPrizeTickets = 0;
-    // generate a drawn number array and store into operator statement data
+    // generating a drawn number array and storing into operator statement data
     operator.statementData.drawnNumbers = generateRandomDistinctNumbers(
       lotterySettings.ticketStart,
       lotterySettings.ticketEnd,
       lotterySettings.ticketMaxNumbers,
     );
-    // loop through each tickets
+    // looping through each tickets
     tickets.forEach((ticket, index1) => {
-      // set played true
+      // setting played true
       tickets[index1].played = true;
-      // loop through each drawn number
+      // looping through each drawn number
       operator.statementData.drawnNumbers.forEach((drawnNumber) => {
-        // loop through numbers of ticket
+        // looping through numbers of ticket
         ticket.numbers.every((ticketNumber, index2) => {
           // if the ticket number matches the drawn number, then marks it as a matched number
           if (ticketNumber.value === drawnNumber) {
             // number is marked as matched
             tickets[index1].numbers[index2].match = true;
-            // count of matches
+            // counting of matches
             tickets[index1].matches++;
             // number matched so loop of ticket numbers is stopped
             return false;
@@ -246,7 +246,7 @@ export const lotteryDrawNumbers = () => {
     const prizeMatch5 = Math.floor(
       operator.statementData.totalIncome * lotterySettings.prizes.match5.incomePercent,
     );
-    // calculate players' prize values and operator's incomes and payments
+    // calculating players' prize values and operator's incomes and payments
     // basic is relative to 5-match prize
     // perPlayer is max prize pool divided with players' number related to matches
     matchTypes.forEach((matchType) => {
@@ -257,7 +257,7 @@ export const lotteryDrawNumbers = () => {
       } else {
         // if the total prize pool divided per players' number would result too high prize per player
         prizes.basic = prizeMatch5 * lotterySettings.prizes[matchType].playerMaxToMatch5;
-        // if the sum of basic prize per player would be over the prize pool because of too much winner player
+        // if the sum of basic prize per player would be over the prize pool because of too many winner players
         prizes.perPlayer =
           (operator.statementData.totalIncome * lotterySettings.prizes[matchType].incomePercent) /
           operator.statementData[matchType].players;
@@ -275,11 +275,11 @@ export const lotteryDrawNumbers = () => {
     // setting profit to operator
     operator.statementData.totalProfit =
       operator.statementData.totalIncome - operator.statementData.totalPayment;
-    // decreasing operator final budget with the total payment
+    // decreasing operator's final budget with the total payment
     operator.budget -= operator.statementData.totalPayment;
-    // setting prize on all tickets and player total price
+    // setting prize on all tickets and player's total price
     tickets.forEach((ticket, index) => {
-      // adding prize to tickets
+      // adding every prize to tickets
       switch (ticket.matches) {
         case 5:
           tickets[index].prize = operator.statementData.match5.playerPayment;
@@ -296,7 +296,7 @@ export const lotteryDrawNumbers = () => {
       }
       // adding together all prizes that player won
       if (player.id === ticket.playerId) {
-        player.totalPrize += ticket.prize;
+        player.totalPrize += tickets[index].prize;
       }
     });
     // adding player's total prize to budget

@@ -1,9 +1,9 @@
 import { tDropDownOption } from '../../logics/general/types';
+import { tLotteryActionTypes } from '../../logics/lottery/lotteryTypes';
 import { dropDownCalculator } from '../../logics/general/middlewares';
+import { useAppContext } from '../core/Context';
 import DropDownMenu from '../general/DropDownMenu';
 import DropDownSelector from '../general/DropDownSelector';
-import { useAppContext } from '../core/Context';
-import { tLotteryActionTypes } from '../../logics/lottery/lotteryTypes';
 
 type tProps = {
   orders: tDropDownOption[];
@@ -29,7 +29,7 @@ function ListOrder(props: tProps) {
             page: '1',
           },
         }),
-      1,
+      10,
     );
   };
 

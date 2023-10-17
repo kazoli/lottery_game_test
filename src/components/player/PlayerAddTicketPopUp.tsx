@@ -48,15 +48,15 @@ function PlayerAddTicketPopUp(props: tProps) {
     <PopUp>
       <FromCustomBlock
         label="Your current budget"
-        content={lotteryState.player.budget + ' ' + lotterySettings.defaultCurrency}
+        children={lotteryState.player.budget + ' ' + lotterySettings.defaultCurrency}
       />
       <FromCustomBlock
         label="Price of a lottey ticket"
-        content={lotterySettings.gamePrice + ' ' + lotterySettings.defaultCurrency}
+        children={lotterySettings.gamePrice + ' ' + lotterySettings.defaultCurrency}
       />
       <FromCustomBlock
         label="Your remaining budget"
-        content={
+        children={
           lotteryState.player.budget -
           lotterySettings.gamePrice +
           ' ' +
@@ -66,7 +66,7 @@ function PlayerAddTicketPopUp(props: tProps) {
       <FromCustomBlock
         labelStyle="mb-[2px]"
         label={`Select ${lotterySettings.ticketMaxNumbers} numbers`}
-        content={<PlayerTicketBlock numbers={numbers} setNumbers={setNumbers} />}
+        children={<PlayerTicketBlock numbers={numbers} setNumbers={setNumbers} />}
         error={error}
       />
       <ButtonBlock buttons={buttons} buttonStyle="form-button" blockStyle="mt-[20px]" />

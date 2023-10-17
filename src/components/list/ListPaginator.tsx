@@ -29,7 +29,7 @@ function ListPaginator() {
             page: page,
           },
         }),
-      1,
+      10,
     );
     // scroll up to the list top
     setTimeout(
@@ -41,7 +41,7 @@ function ListPaginator() {
   const page = lotteryState.ticketList.page === '1' ? 1 : parseInt(lotteryState.ticketList.page);
   const buttons: tButtonBlock = [
     {
-      disabled: page === 1,
+      disabled: page < 2,
       content: (
         <span className="flex items-center pr-[5px] uppercase">
           <LuChevronLeft className="text-[1.2rem]" />
@@ -49,7 +49,7 @@ function ListPaginator() {
         </span>
       ),
       title: 'Previous page',
-      action: () => changePage(`${page === 2 ? '1' : page - 1}`),
+      action: () => changePage(`${page > 2 ? page - 1 : 1}`),
     },
     {
       disabled: true,

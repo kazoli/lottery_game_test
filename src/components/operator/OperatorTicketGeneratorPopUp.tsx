@@ -47,7 +47,7 @@ function OperatorTicketGeneratorPopUp(props: tProps) {
         }
         // close popup
         props.setTicketGeneratorPopUp(false);
-      }, 1);
+      }, 10);
     }
   };
 
