@@ -86,7 +86,7 @@ export const dropDownCalculator = (
     if (option.key === selected) {
       dropDown.selected = option.value;
     } else {
-      dropDown.options = [...dropDown.options, option];
+      dropDown.options.push(option);
     }
   });
   if (!dropDown.selected) {
@@ -109,7 +109,7 @@ export const generateRandomDistinctNumbers = (
   // looping until the numbers has the given number of elements
   while (numbers.length < arrayLength) {
     // generating a random number between minRange and maxRange
-    let num = Math.floor(Math.random() * (maxRange - minRange + 1)) + minRange;
+    const num = Math.floor(Math.random() * (maxRange - minRange + 1)) + minRange;
     // checking if the number is already among the numbers
     if (!numbers.includes(num)) {
       // pushing the number to the numbers

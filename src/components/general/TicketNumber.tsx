@@ -1,7 +1,7 @@
 type tProps = {
   number: number;
   selected: boolean;
-  extraClass: string;
+  extraStyle: string;
   action?: () => void;
 };
 
@@ -14,7 +14,7 @@ function TicketNumber(props: tProps) {
   return (
     <span
       key={props.number}
-      className={`flex items-center justify-center rounded-[3px] bg-[#fff] ${props.extraClass} ${
+      className={`flex items-center justify-center rounded-[3px] bg-[#fff] ${props.extraStyle} ${
         props.selected ? colors.selected : colors.base
       }`}
       onClick={props.action}

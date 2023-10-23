@@ -30,7 +30,7 @@ function PlayerTicketBlock(props: tProps) {
     ticketNumbers.push(
       <TicketNumber
         key={i}
-        extraClass="cursor-pointer p-[10px]"
+        extraStyle="cursor-pointer p-[10px]"
         number={i}
         selected={selected}
         action={() => selectAction(selected, i)}

@@ -38,7 +38,7 @@ function ListPaginator() {
     );
   };
 
-  const page = lotteryState.ticketList.page === '1' ? 1 : parseInt(lotteryState.ticketList.page);
+  const page = parseInt(lotteryState.ticketList.page);
   const buttons: tButtonBlock = [
     {
       disabled: page < 2,

@@ -85,7 +85,7 @@ export const lotteryLoadTicketList = (
     if (playerId) {
       // filtering player's tickets from all tickets
       ticketList.tickets = ticketList.tickets.filter((ticket) => ticket.playerId === playerId);
-      // getting total results from number of player tickets
+      // getting total results from number of player's tickets
       ticketList.totalResults = ticketList.tickets.length;
     }
     // setting order to return array
@@ -125,11 +125,13 @@ export const lotteryProcessTickets = (
   playerId: tLotteryState['player']['id'],
   numberBlocks: number[][],
 ) => {
+  // generating created date
+  const created = formatDate(settings.systemDateFormat, new Date());
   // creating ticket objects
   const tickets: tLotteryTicket[] = numberBlocks.map((numbers) => ({
     id: uuidV4(),
     playerId: playerId,
-    created: formatDate(settings.systemDateFormat, new Date()),
+    created: created,
     numbers: numbers.map((number) => ({ value: number, match: false })),
     matches: 0,
     prize: 0,

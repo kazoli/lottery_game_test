@@ -40,7 +40,7 @@ function ListBodyElement(props: tProps) {
           {props.ticket.numbers.map((number) => (
             <TicketNumber
               key={number.value}
-              extraClass="min-w-[1.5rem]"
+              extraStyle="min-w-[1.5rem]"
               number={number.value}
               selected={number.match}
             />

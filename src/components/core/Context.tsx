@@ -21,9 +21,7 @@ const contextInitialState = {} as tContext;
 const Context = createContext(contextInitialState);
 
 // Context custom hook
-function useAppContext() {
-  return useContext(Context);
-}
+const useAppContext = () => useContext(Context);
 
 // Context provider
 function ContextProvider(props: tProps) {
