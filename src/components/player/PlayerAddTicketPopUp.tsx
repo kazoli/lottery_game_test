@@ -5,7 +5,7 @@ import { numberArrayReorder } from '../../logics/general/middlewares';
 import { lotteryProcessTickets } from '../../logics/lottery/lotteryMiddlewares';
 import { useAppContext } from '../core/Context';
 import PopUp from '../general/PopUp';
-import FromCustomBlock from '../form/FromCustomBlock';
+import FormCustomBlock from '../form/FormCustomBlock';
 import PlayerTicketBlock from './PlayerTicketBlock';
 import ButtonBlock from '../general/ButtonBlock';
 
@@ -46,15 +46,15 @@ function PlayerAddTicketPopUp(props: tProps) {
 
   return (
     <PopUp>
-      <FromCustomBlock
+      <FormCustomBlock
         label="Your current budget"
         children={lotteryState.player.budget + ' ' + lotterySettings.defaultCurrency}
       />
-      <FromCustomBlock
+      <FormCustomBlock
         label="Price of a lottey ticket"
         children={lotterySettings.gamePrice + ' ' + lotterySettings.defaultCurrency}
       />
-      <FromCustomBlock
+      <FormCustomBlock
         label="Your remaining budget"
         children={
           lotteryState.player.budget -
@@ -63,7 +63,7 @@ function PlayerAddTicketPopUp(props: tProps) {
           lotterySettings.defaultCurrency
         }
       />
-      <FromCustomBlock
+      <FormCustomBlock
         labelStyle="mb-[2px]"
         label={`Select ${lotterySettings.ticketMaxNumbers} numbers`}
         children={<PlayerTicketBlock numbers={numbers} setNumbers={setNumbers} />}

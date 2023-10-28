@@ -10,7 +10,7 @@ type tProps = {
   children: string | JSX.Element;
 };
 
-function FromCustomBlock(props: tProps) {
+function FormCustomBlock(props: tProps) {
   return (
     <div className={`flex flex-wrap first-of-type:mt-0 mt-[15px] ${props.blockStyle ?? ''}`}>
       <FormLabel id="" labelStyle={props.labelStyle} label={props.label} />
@@ -22,4 +22,4 @@ function FromCustomBlock(props: tProps) {
   );
 }
 
-export default FromCustomBlock;
+export default FormCustomBlock;

@@ -106,10 +106,12 @@ export const generateRandomDistinctNumbers = (
 ) => {
   // initializing an empty number array
   const numbers: number[] = [];
+  // range difference
+  const rangeDiff = maxRange - minRange + 1;
   // looping until the numbers has the given number of elements
   while (numbers.length < arrayLength) {
     // generating a random number between minRange and maxRange
-    const num = Math.floor(Math.random() * (maxRange - minRange + 1)) + minRange;
+    const num = Math.floor(Math.random() * rangeDiff) + minRange;
     // checking if the number is already among the numbers
     if (!numbers.includes(num)) {
       // pushing the number to the numbers
