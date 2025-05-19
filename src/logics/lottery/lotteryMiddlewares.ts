@@ -77,7 +77,7 @@ export const lotteryLoadTicketList = (
   // setting base value of list view
   ticketList.listView = (getLocalStorage(tLotteryLocalStorages.listView) ??
     lotteryInitialState.ticketList.listView) as tLotteryState['ticketList']['listView'];
-  // entering onyl if there is a ticket at least
+  // entering only if there is a ticket at least
   if (ticketList.totalResults) {
     // currently if 1 ticket is played in a drawn, then all tickets too
     ticketList.played = ticketList.tickets[0].played;
@@ -191,7 +191,7 @@ export const lotteryDrawNumbers = () => {
     const player = lotteryInitializePlayer();
     // getting operator data
     const operator = lotteryInitializeOperator();
-    // resetting unwinning ticket number because it was counted at the adding of every new ticket
+    // resetting not winning ticket number because it was counted at the adding of every new ticket
     operator.statementData.noPrizeTickets = 0;
     // generating a drawn number array and storing into operator statement data
     operator.statementData.drawnNumbers = generateRandomDistinctNumbers(

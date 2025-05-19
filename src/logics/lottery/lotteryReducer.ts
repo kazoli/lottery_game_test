@@ -28,7 +28,7 @@ export const lotteryReducer = (state: tLotteryState, action: tLotteryActions) =>
 
     // set player data
     case tLotteryActionTypes.lotterySetPlayer:
-      // initalize operator too to budget changes
+      // initialize operator too to budget changes
       const users = { player: lotteryInitializePlayer(), operator: lotteryInitializeOperator() };
       state = {
         ...state,

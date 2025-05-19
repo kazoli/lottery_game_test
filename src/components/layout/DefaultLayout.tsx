@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, ReactNode } from 'react';
 import { scrollToElement } from '../../logics/general/middlewares';
 import Loading from './general/Loading';
 import Header from './header/Header';
@@ -6,7 +6,7 @@ import Footer from './footer/Footer';
 import JumpTop from './general/JumpTop';
 
 type tProps = {
-  children: JSX.Element;
+  children: ReactNode;
   loading?: boolean;
 };
 

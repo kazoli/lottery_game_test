@@ -36,7 +36,7 @@ function Operator() {
         <>
           <PageHeadLine
             title="Operator"
-            subTitle="You can controll the lottery game through the dashboard"
+            subTitle="You can control the lottery game through the dashboard"
           />
           <OperatorDashboard />
           {lotteryState.ticketList.tickets.length ? (

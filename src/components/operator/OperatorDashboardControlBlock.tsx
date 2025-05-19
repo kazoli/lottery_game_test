@@ -5,7 +5,7 @@ import { useAppContext } from '../core/Context';
 import OperatorTicketGeneratorPopUp from './OperatorTicketGeneratorPopUp';
 import DashboardBlock from '../general/DashboardBlock';
 
-function OperatorDashboardControllBlock() {
+function OperatorDashboardControlBlock() {
   const { lotteryState, lotteryDispatch } = useAppContext();
   const [ticketGeneratorPopup, setTicketGeneratorPopUp] = useState(false);
 
@@ -45,7 +45,7 @@ function OperatorDashboardControllBlock() {
 
   const dataBlocks = [
     {
-      title: 'Lottery game controll',
+      title: 'Lottery game control',
       content: (
         <>
           {links.map((link, index) => (
@@ -70,4 +70,4 @@ function OperatorDashboardControllBlock() {
   );
 }
 
-export default OperatorDashboardControllBlock;
+export default OperatorDashboardControlBlock;

@@ -13,22 +13,20 @@ function Main() {
 
   return (
     <DefaultLayout loading={lotteryState.status === 'loading'}>
-      <>
-        <PageHeadLine
-          title="Welcome to the lottery game!"
-          subTitle="You can go to the player or operator page of the game"
-        />
-        <div>
-          <Link to="/player" className="link text-[1.25rem]">
-            Player
-          </Link>
-        </div>
-        <div className="mt-[10px]">
-          <Link to="/operator" className="link text-[1.25rem]">
-            Operator
-          </Link>
-        </div>
-      </>
+      <PageHeadLine
+        title="Welcome to the lottery game!"
+        subTitle="You can go to the player or operator page of the game"
+      />
+      <div>
+        <Link to="/player" className="link text-[1.25rem]">
+          Player
+        </Link>
+      </div>
+      <div className="mt-[10px]">
+        <Link to="/operator" className="link text-[1.25rem]">
+          Operator
+        </Link>
+      </div>
     </DefaultLayout>
   );
 }
