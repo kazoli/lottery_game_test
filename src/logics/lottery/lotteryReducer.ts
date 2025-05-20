@@ -114,7 +114,7 @@ export const lotteryReducer = (state: tLotteryState, action: tLotteryActions) =>
           listView: action.payload,
         },
       };
-      // strore list view in local storage
+      // store list view in local storage
       setLocalStorage(tLotteryLocalStorages.listView, action.payload);
       return state;
 
@@ -143,7 +143,7 @@ export const lotteryReducer = (state: tLotteryState, action: tLotteryActions) =>
       state = {
         ...state,
         player: lotteryInitialState.player,
-        operator: lotteryInitializeOperator(), // reintialize operator
+        operator: lotteryInitializeOperator(), // reinitialize operator
         ticketList: lotteryInitialState.ticketList,
       };
       return state;

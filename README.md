@@ -1,6 +1,6 @@
 # DESCRIPTION
 
-Lottery game test with a player and and an operator. React with typescript and global state management was created with useReducer and useContext hooks.
+Lottery game test with a player and an operator. React with typescript and global state management was created with useReducer and useContext hooks.
 
 # LIVE DEMO
 

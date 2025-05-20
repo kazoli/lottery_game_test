@@ -199,7 +199,7 @@ export const lotteryDrawNumbers = () => {
       lotterySettings.ticketEnd,
       lotterySettings.ticketMaxNumbers,
     );
-    // looping through each tickets
+    // looping through all tickets
     tickets.forEach((ticket, index1) => {
       // setting played true
       tickets[index1].played = true;

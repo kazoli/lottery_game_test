@@ -120,7 +120,7 @@ function OperatorDashboardInfoBlock() {
   return (
     <DashboardBlock
       dataBlocks={dataBlocks}
-      blockStyle="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-[20px] flex-[10000_10000_300px]"
+      blockStyle="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-[20px] flex-[10000_10000_300px]"
     />
   );
 }
